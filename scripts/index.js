@@ -56,3 +56,5 @@ function createStreamGraph(data) {
       .attr("fill", function() { return z(Math.random()); });
 
 }
+
+export {makeRequest} 
