@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {makeRequest} from '../../scripts/index'
+import streamGraph from '../../scripts/d3/home'
+import {makeDataRequest} from '../../scripts/api'
 
 class Home extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    makeRequest()
+    makeDataRequest(streamGraph)
   }
 
   render() {

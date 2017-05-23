@@ -1,23 +1,6 @@
- document.addEventListener("DOMContentLoaded", makeRequest)
+export default function createStreamGraph(request) {
 
- function makeRequest() {
-   let httpRequest = new XMLHttpRequest()
-   httpRequest.onreadystatechange = function(){
-     if (httpRequest.readyState === XMLHttpRequest.DONE) {
-       if (httpRequest.status === 200) {
-         createStreamGraph(JSON.parse(httpRequest.responseText))
-       } else {
-       }
-     } else {
-     }
-  }
-  httpRequest.open('GET', '/getData');
-  httpRequest.send();
- }
-
-function createStreamGraph(data) {
-
-  var {data, variableList} = data
+  var {data, variableList} = request.body
 
 
   var width = document.getElementById("svgContainer").clientWidth
@@ -56,5 +39,3 @@ function createStreamGraph(data) {
       .attr("fill", function() { return z(Math.random()); });
 
 }
-
-export {makeRequest} 

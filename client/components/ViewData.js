@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {makeRequest} from '../../scripts/viewData'
+import barGraph from '../../scripts/d3/viewData'
+import {makeDataRequest} from '../../scripts/api'
 
 class ViewData extends React.Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class ViewData extends React.Component {
   }
 
   componentDidMount() {
-    makeRequest()
+    makeDataRequest(barGraph)
   }
 
   render() {

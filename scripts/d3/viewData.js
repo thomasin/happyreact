@@ -1,24 +1,6 @@
- document.addEventListener("DOMContentLoaded", makeRequest)
-
- function makeRequest() {
-   let httpRequest = new XMLHttpRequest()
-   httpRequest.onreadystatechange = function(){
-     if (httpRequest.readyState === XMLHttpRequest.DONE) {
-       if (httpRequest.status === 200) {
-         createGraphs(JSON.parse(httpRequest.responseText))
-       } else {
-       }
-     } else {
-     }
-  }
-  httpRequest.open('GET', '/getData');
-  httpRequest.send();
- }
-
-
-
-function createGraphs(data) {
-  var {data, variableList} = data
+export default function createGraphs(request) {
+  var {data, variableList} = request.body
+  
   variableList.push("energy")
   variableList.push("outlook")
 
