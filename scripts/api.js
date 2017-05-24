@@ -17,7 +17,7 @@ export function getAllOfTable (tableName, callback) {
     .end((err, res) => {
       if (err) { console.log(err) }
       else {
-        callback(res.body)
+        callback(res.body, err)
       }
     })
 }
