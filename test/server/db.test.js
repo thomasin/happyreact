@@ -24,3 +24,13 @@ test('getAll returns a different array depending on tableName', t => {
         })
     })
 })
+
+test('addVariable adds a new variable to the variable table', t => {
+  return db.addVariable(t.context.connection, "I'm new!")
+    .then(() => {
+      return db.getAll(t.context.connection, 'variable')
+        .then((variables) => {
+          t.is(variables[variables.length-1].name, "I'm new!")
+        })
+    })
+})
