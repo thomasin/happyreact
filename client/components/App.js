@@ -1,7 +1,7 @@
 import React from 'react'
 import {HashRouter as Router, Route} from 'react-router-dom'
 import Home from './Home'
-import Nav from './Nav'
+import Nav from './subcomponents/Nav'
 import ViewData from './ViewData'
 import AddEntry from './AddEntry'
 

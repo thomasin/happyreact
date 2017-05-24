@@ -1,14 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {getAllOfTable} from '../../scripts/api'
+import AddNewEntry_VariableRow from './subcomponents/AddNewEntry_VariableRow'
 
 class AddEntry extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  componentDidMount() {
-    getAllOfTable('variable', console.log)
   }
 
   render() {
@@ -23,7 +20,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="energy" id="energyBar" />
+              <input type="range" min="1" max="5" name="energy" id="energyBar" defaultValue="3" />
             </div>
             <div className="three columns">
               <label htmlFor="energyBar">
@@ -39,7 +36,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="outlook" id="outlookBar" />
+              <input type="range" min="1" max="5" name="outlook" id="outlookBar" defaultValue="3" />
             </div>
             <div className="three columns">
               <label htmlFor="outlookBar">
@@ -47,6 +44,8 @@ class AddEntry extends React.Component {
               </label>
             </div>
           </div>
+
+          <AddNewEntry_VariableRow />
 
           <div className="row">
             <textarea className="entryText text" name="entry"></textarea>
@@ -62,22 +61,5 @@ class AddEntry extends React.Component {
   }
 }
 
-// VARIABLE COMPONENT
-// <div class="row variableRow section">
-//   {{#each variables}}
-//   <div class="three columns">
-//     <label for="{{this.name}}">{{this.name}}</label>
-//     <input type="text" name="{{this.id}}" id="{{this.name}}" value={{this.value}}>
-//   </div>
-//   {{/each}}
-//   <div class="three columns">
-//     <label for="newVariable">~</label>
-//     <div class="together">
-//       <input type="text" name="newVariable" class="leftInput" id="newVariable" placeholder="Add new variable">
-//       <button type="submit" formaction="/addEntry/addVariable" class="button rightInput">></button>
-//     </div>
-//   </div>
-// </div>
-// ENTRY TEXT
 
 export default AddEntry
