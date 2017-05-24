@@ -31,19 +31,22 @@ class AddNewEntry_VariableRow extends React.Component {
 
   submitVariable(e) {
     e.preventDefault()
-    addVariable(this.state, () => this.getVariables())
+    if (this.validateValue(document.getElementById("newVariable")) && this.state.newVariable != '') { // Make sure submitted variable name is valid
+      addVariable(this.state, () => this.getVariables())
+    }
   }
 
 
   validateValue(e) {
   var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
     if (e.name == 'newVariable') {
-      console.log('new')
       if (e.value.length > 20) {
         e.classList.add('invalid')
         this.setState({ validated: 'variableNameTooLong' })
+        return false
       } else {
         e.classList.remove('invalid')
+        return true
       }
     } else {
       if (!allowedWords.includes(e.value.toLowerCase()) && isNaN(e.value)) {
