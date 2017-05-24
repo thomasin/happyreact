@@ -21,3 +21,13 @@ export function getAllOfTable (tableName, callback) {
       }
     })
 }
+
+export function addVariable (variableName, callback) {
+  request
+    .post('/add-variable')
+    .send(variableName)
+    .end((err, res) => {
+      if (err) { callback(err) }
+      else { callback() }
+    })
+}

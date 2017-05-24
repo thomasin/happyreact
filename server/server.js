@@ -30,6 +30,13 @@ app.get('/getAll', (req, res) => {
     })
 })
 
+app.post('/add-variable', (req, res) => {
+  db.addVariable(req.app.get('connection'), req.body.newVariable)
+    .then(() => {
+      res.send(200)
+    })
+})
+
 module.exports = (connection) => {
   app.set('connection', connection)
   return app
