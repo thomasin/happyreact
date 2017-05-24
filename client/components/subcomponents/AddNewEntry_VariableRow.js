@@ -19,7 +19,6 @@ class AddNewEntry_VariableRow extends React.Component {
       newVariable: newProps.newVariable,
       validated: newProps.validated
     })
-      console.log(this.state)
   }
 
   submitVariable(e) {
