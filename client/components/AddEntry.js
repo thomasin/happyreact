@@ -2,10 +2,49 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {getAllOfTable} from '../../scripts/api'
 import AddNewEntry_VariableRow from './subcomponents/AddNewEntry_VariableRow'
+import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 
 class AddEntry extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+        variables: [],
+        newVariable: '',
+        validated: 'default'
+    }
+  }
+
+  componentDidMount() {
+    this.getVariables()
+  }
+
+  getVariables() {
+    getAllOfTable('variable', (variables) => {
+      variables.forEach((variable) => {
+        variable.value = ''
+      })
+      this.setState({
+        variables,
+        newVariable: ''
+      })
+    })
+  }
+
+  updateVariables(e) { // Make sure state reflects variable values
+    var inputs = document.getElementsByClassName('variable')
+    Array.from(inputs).forEach((input) => {
+      validateVariableValues.call(this, input)
+    })
+
+    if (e.target.name == 'newVariable') {
+      this.setState({ 'newVariable': e.target.value })
+    } else {
+      let i = this.state.variables.find((v) => {
+        return v.id == e.target.name
+      })
+      i.value = e.target.value
+      this.setState({ variables: this.state.variables})
+    }
   }
 
   render() {
@@ -45,7 +84,7 @@ class AddEntry extends React.Component {
             </div>
           </div>
 
-          <AddNewEntry_VariableRow />
+          <AddNewEntry_VariableRow variables={this.state.variables} newVariable={this.state.newVariable} validated={this.state.validated} getVariables={this.getVariables.bind(this)} updateVariables={this.updateVariables.bind(this)}/>
 
           <div className="row">
             <textarea className="entryText text" name="entry"></textarea>
