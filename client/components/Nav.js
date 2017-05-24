@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const Nav = props => {
-  let middleLink = location.hash == '#/' ? <button className="button-primary">Add entry</button> : <Link to="/" className="button">Entry List</Link>
+  let middleLink = location.hash == '#/' ? <Link to="/add-entry" className="button button-primary">Add entry</Link> : <Link to="/" className="button">Entry List</Link>
   return (
     <div className="container">
       <div className="row nav section">

@@ -1,7 +1,7 @@
 var path = require('path')
 var express = require('express')
 var bodyParser = require('body-parser')
-var db = require('../db')
+var db = require('./db')
 var app = express()
 
 // Middleware
@@ -20,6 +20,14 @@ app.get('/getData', (req, res) => {
       res.end()
     })
     .catch(console.log)
+})
+
+app.get('/getAll', (req, res) => {
+  db.getAll(req.app.get('connection'), req.query.tableName)
+    .then((data) => {
+      res.json(data)
+      res.end()
+    })
 })
 
 module.exports = (connection) => {

@@ -6,7 +6,18 @@ export function makeDataRequest (callback) {
     .end((err, res) => {
       if (err) { console.log(err) }
       else {
-        callback(res)
+        callback(res, err)
+      }
+    })
+}
+
+export function getAllOfTable (tableName, callback) {
+  request
+    .get(`/getAll?tableName=${tableName}`)
+    .end((err, res) => {
+      if (err) { console.log(err) }
+      else {
+        callback(res.body)
       }
     })
 }
