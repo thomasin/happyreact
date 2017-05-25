@@ -1,7 +1,7 @@
 export default function createStreamGraph(request) {
 
   var {data, variableList} = request.body
-
+console.log(data)
 
   var width = document.getElementById("svgContainer").clientWidth
   var height = document.getElementById("svgContainer").clientHeight

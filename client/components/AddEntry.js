@@ -65,7 +65,7 @@ class AddEntry extends React.Component {
       document.getElementById("createButton").classList.remove("success")
       document.getElementById("createButton").innerHTML = "Create"
       this.refresh()
-    }, 1000)
+    }, 2000)
   }
 
   updateVariables(e) { // Make sure state reflects variable values

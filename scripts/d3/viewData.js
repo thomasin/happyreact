@@ -1,12 +1,14 @@
+import moment from 'moment'
+
 export default function createGraphs(request) {
   var {data, variableList} = request.body
 
   variableList.push("energy")
   variableList.push("outlook")
 
-  var parseTime = d3.timeParse("%y-%m-%d %h:%m:%s")
+  var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S")
   data.forEach((row) => {
-    row.date = parseTime(row.date)
+    row.date = parseTime(moment(`${row.date} +0000`, "YYYY-MM-DD kk:mm:ss ZZ").local().format("YYYY-MM-DD kk:mm:ss"))
   })
 
   var margin = {top: 10, right: 0, bottom: 40, left: 0}

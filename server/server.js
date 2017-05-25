@@ -6,7 +6,6 @@ var app = express()
 
 // Middleware
 
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
@@ -16,6 +15,7 @@ app.use(express.static('public'))
 app.get('/getData', (req, res) => {
   db.getAllData(req.app.get('connection'))
     .then((data) => {
+      console.log(data)
       res.json(data)
       res.end()
     })
@@ -25,6 +25,7 @@ app.get('/getData', (req, res) => {
 app.get('/getAll', (req, res) => {
   db.getAll(req.app.get('connection'), req.query.tableName)
     .then((data) => {
+      console.log(data)
       res.json(data)
       res.end()
     })
@@ -38,7 +39,6 @@ app.post('/add-variable', (req, res) => {
 })
 
 app.post('/add-entry', (req, res) => {
-  console.log(req.body)
   db.addEntry(req.app.get('connection'), req.body)
     .then((entry_id) => {
       req.body.variables.forEach((variable) => {

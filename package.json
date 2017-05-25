@@ -48,6 +48,7 @@
     "express": "^4.14.0",
     "jump.js": "^1.0.2",
     "knex": "^0.13.0",
+    "moment": "^2.18.1",
     "react-router-dom": "^4.1.1",
     "sqlite3": "^3.1.8",
     "superagent": "^3.5.2",
