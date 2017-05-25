@@ -1,10 +1,10 @@
 export default function createGraphs(request) {
   var {data, variableList} = request.body
-  
+
   variableList.push("energy")
   variableList.push("outlook")
 
-  var parseTime = d3.timeParse("%d-%b-%y");
+  var parseTime = d3.timeParse("%y-%m-%d %h:%m:%s")
   data.forEach((row) => {
     row.date = parseTime(row.date)
   })
