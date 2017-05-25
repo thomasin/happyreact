@@ -101,7 +101,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="energy" id="energyBar" defaultValue='3' value={this.state.energy} onChange={(e) => this.updateForm(e)}/>
+              <input type="range" min="1" max="5" name="energy" id="energyBar" value={this.state.energy} onChange={(e) => this.updateForm(e)}/>
             </div>
             <div className="three columns">
               <label htmlFor="energyBar">
@@ -117,7 +117,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="outlook" id="outlookBar" defaultValue='3' value={this.state.outlook} onChange={(e) => this.updateForm(e)}/>
+              <input type="range" min="1" max="5" name="outlook" id="outlookBar" value={this.state.outlook} onChange={(e) => this.updateForm(e)}/>
             </div>
             <div className="three columns">
               <label htmlFor="outlookBar">

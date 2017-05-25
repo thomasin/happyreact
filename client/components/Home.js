@@ -22,6 +22,7 @@ class Home extends React.Component {
   }
 
   displayEntries(entries) {
+    console.log(entries)
     return entries.map((entry) => {
       return (
         <div key={entry.id} className="row">

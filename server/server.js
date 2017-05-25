@@ -16,6 +16,7 @@ app.use(express.static('public'))
 app.get('/getData', (req, res) => {
   db.getAllData(req.app.get('connection'))
     .then((data) => {
+      console.log(data)
       res.json(data)
       res.end()
     })

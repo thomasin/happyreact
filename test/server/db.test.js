@@ -34,3 +34,10 @@ test('addVariable adds a new variable to the variable table', t => {
         })
     })
 })
+
+test('addEntry adds a entry to the variable table', t => {
+  let entry = {
+    
+  }
+  return db.addEntry(t.context.connection, entry)
+})
