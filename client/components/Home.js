@@ -16,7 +16,9 @@ class Home extends React.Component {
   }
 
   scrollToEntries(e) {
-    jump('.entries-list')
+    jump('.entries-list', {
+      offset: -16
+    })
   }
 
   displayEntries(entries) {
@@ -43,7 +45,7 @@ class Home extends React.Component {
         <div className="container">
           <div className="row">
             <div className="twelve columns">
-              <h2 className="downArrow" onClick={(e) => this.scrollToEntries(e)}>↓</h2>
+              <h2 className="downArrow"><img src="images/arrow-down.png" width="70px"  onClick={(e) => this.scrollToEntries(e)}/></h2>
             </div>
           </div>
           <div className="entries-list">

@@ -1,5 +1,4 @@
 export function validateVariableValues(e) {
-  console.log("im called")
 var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
   if (e.name == 'newVariable') {
     if (e.value.length > 20) {

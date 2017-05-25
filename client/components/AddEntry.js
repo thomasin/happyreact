@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {getAllOfTable} from '../../scripts/api'
+import {getAllOfTable, submitEntry} from '../../scripts/api'
 import AddNewEntry_VariableRow from './subcomponents/AddNewEntry_VariableRow'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 
@@ -10,7 +10,10 @@ class AddEntry extends React.Component {
     this.state = {
         variables: [],
         newVariable: '',
-        validated: 'default'
+        validated: 'default',
+        entry: '',
+        energy: '3',
+        outlook: '3'
     }
   }
 
@@ -30,12 +33,51 @@ class AddEntry extends React.Component {
     })
   }
 
+  updateForm(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  submitForm(e) {
+    e.preventDefault()
+    if (!document.getElementsByClassName("invalid").length) {
+      submitEntry(this.state, () => this.submitSuccess())
+    }
+  }
+
+  refresh() {
+    this.setState({
+      variables: [],
+      newVariable: '',
+      validated: 'default',
+      entry: '',
+      energy: '3',
+      outlook: '3'
+    })
+    this.getVariables()
+  }
+
+  submitSuccess() {
+    document.getElementById("createButton").classList.add("success")
+    document.getElementById("createButton").innerHTML = "Success"
+    window.setTimeout(() => {
+      document.getElementById("createButton").classList.remove("success")
+      document.getElementById("createButton").innerHTML = "Create"
+      this.refresh()
+    }, 1000)
+  }
+
   updateVariables(e) { // Make sure state reflects variable values
     var inputs = document.getElementsByClassName('variable')
     Array.from(inputs).forEach((input) => {
       validateVariableValues.call(this, input)
     })
-
+    if (document.getElementsByClassName("invalid").length) {
+      document.getElementById("createButton").classList.add("disabled")
+    } else {
+      document.getElementById("createButton").classList.remove("disabled")
+    }
     if (e.target.name == 'newVariable') {
       this.setState({ 'newVariable': e.target.value })
     } else {
@@ -59,7 +101,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="energy" id="energyBar" defaultValue="3" />
+              <input type="range" min="1" max="5" name="energy" id="energyBar" defaultValue='3' value={this.state.energy} onChange={(e) => this.updateForm(e)}/>
             </div>
             <div className="three columns">
               <label htmlFor="energyBar">
@@ -75,7 +117,7 @@ class AddEntry extends React.Component {
               </label>
             </div>
             <div className="six columns">
-              <input type="range" min="1" max="5" name="outlook" id="outlookBar" defaultValue="3" />
+              <input type="range" min="1" max="5" name="outlook" id="outlookBar" defaultValue='3' value={this.state.outlook} onChange={(e) => this.updateForm(e)}/>
             </div>
             <div className="three columns">
               <label htmlFor="outlookBar">
@@ -87,11 +129,11 @@ class AddEntry extends React.Component {
           <AddNewEntry_VariableRow variables={this.state.variables} newVariable={this.state.newVariable} validated={this.state.validated} getVariables={this.getVariables.bind(this)} updateVariables={this.updateVariables.bind(this)}/>
 
           <div className="row">
-            <textarea className="entryText text" name="entry"></textarea>
+            <textarea className="entryText text" name="entry" onChange={(e) => this.updateForm(e)} value={this.state.entry}>{this.state.entry}</textarea>
           </div>
 
           <div className="row">
-            <button type="submit" className="button-primary">Create</button>
+            <button type="submit" className="button-primary" id="createButton" onClick={(e) => this.submitForm(e)}>Create</button>
           </div>
         </form>
       </div>

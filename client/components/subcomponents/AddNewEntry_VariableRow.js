@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {getAllOfTable, addVariable} from '../../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../../scripts/utils/validation'
+import trim from 'trim'
 
 class AddNewEntry_VariableRow extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class AddNewEntry_VariableRow extends React.Component {
 
   submitVariable(e) {
     e.preventDefault()
-    if (validateVariableValues.call(this, document.getElementById("newVariable")) && this.state.newVariable != '') { // Make sure submitted variable name is valid
+    if (validateVariableValues.call(this, document.getElementById("newVariable")) && trim(this.state.newVariable) != '') { // Make sure submitted variable name is valid
       addVariable(this.state, () => this.props.getVariables()) // Add to database
     }
   }

@@ -31,9 +31,75 @@ body {
   display: inline;
 }
 
-.invalid {
-  border-color: red !important;
+button.disabled {
+  background-color: #eee;
+  border-color: #eee;
+  color: #bbb;
+  cursor: default;
 }
+
+button.disabled:hover {
+  background-color: #eee;
+  border-color: #eee;
+  color: #bbb;
+  cursor: default;
+}
+
+button.disabled:active {
+  background-color: #eee;
+  border-color: #eee;
+  color: #bbb;
+  cursor: default;
+}
+
+button.disabled:focus {
+  background-color: #eee;
+  border-color: #eee;
+  color: #bbb;
+  cursor: default;
+}
+
+button.success {
+  background-color: green;
+  border-color: green;
+  color: #bbb;
+  cursor: default;
+}
+
+button.success:hover {
+  background-color: green;
+  border-color: green;
+  color: #bbb;
+  cursor: default;
+}
+
+button.success:active {
+  background-color: green;
+  border-color: green;
+  color: #bbb;
+  cursor: default;
+}
+
+button.success:focus {
+  background-color: green;
+  border-color: green;
+  color: #bbb;
+  cursor: default;
+}
+
+input.invalid {
+  border-color: red;
+}
+
+input.invalid:focus {
+  border-color: red;
+}
+
+#createButton {
+  transition: all 0.3s linear;
+}
+
+
 
 .title {
   text-transform: uppercase;
@@ -71,8 +137,16 @@ body {
 }
 
 .downArrow {
-  margin-top: -50px;
-  color: #bbb;
+  margin-top: -70px;
+  opacity: 0.6;
+  transition: all 0.2s linear;
+}
+
+.downArrow:hover {
+  opacity: 1;
+}
+
+.downArrow img {
   cursor: pointer;
 }
 

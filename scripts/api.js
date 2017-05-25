@@ -31,3 +31,27 @@ export function addVariable (variableName, callback) {
       else { callback() }
     })
 }
+
+export function submitEntry (entryData, callback) {
+  let title = ''
+  let text = ''
+  if (entryData.entry.indexOf('\n') < 50) {
+    title = entryData.entry.substring(0,entryData.entry.indexOf("\n"))
+    text = entryData.entry.substring(entryData.entry.indexOf("\n"))
+  } else {
+    title = entryData.entry.substring(0, 47) + '...'
+    text = '...' + entryData.entry.substring(47)
+  }
+  request
+    .post('/add-entry')
+    .send({
+      'title': title || '',
+      'text': text || '',
+      'mood_id': parseInt(entryData.energy + entryData.outlook),
+      'variables': entryData.variables
+    })
+    .end((err, res) => {
+      if (err) { callback(err) }
+      else { callback(res) }
+    })
+}

@@ -33,8 +33,23 @@ app.get('/getAll', (req, res) => {
 app.post('/add-variable', (req, res) => {
   db.addVariable(req.app.get('connection'), req.body.newVariable)
     .then(() => {
-      res.send(200)
+      res.sendStatus(200)
     })
+})
+
+app.post('/add-entry', (req, res) => {
+  console.log(req.body)
+  db.addEntry(req.app.get('connection'), req.body)
+    .then((entry_id) => {
+      req.body.variables.forEach((variable) => {
+        db.addVariableEntry(req.app.get('connection'), variable, entry_id)
+          .catch(console.log)
+      })
+    })
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch(console.log)
 })
 
 module.exports = (connection) => {
