@@ -11,15 +11,20 @@ export function makeDataRequest (callback) {
     })
 }
 
+const allowedTables = ['variable', 'entry']
 export function getAllOfTable (tableName, callback) {
-  request
-    .get(`/getAll?tableName=${tableName}`)
-    .end((err, res) => {
-      if (err) { console.log(err) }
-      else {
-        callback(res.body, err)
-      }
-    })
+  if (allowedTables.includes(tableName)) {
+    request
+      .get(`/getAll?tableName=${tableName}`)
+      .end((err, res) => {
+        if (err) { console.log(err) }
+        else {
+          callback(res.body, err)
+        }
+      })
+  } else {
+    console.log("don't hack me")
+  }
 }
 
 export function addVariable (variableName, callback) {

@@ -25,6 +25,10 @@ body {
   opacity: 0;
 }
 
+.displayNone {
+  display: none;
+}
+
 /* Class add ons */
 
 .inline {

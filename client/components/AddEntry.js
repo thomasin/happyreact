@@ -2,12 +2,14 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {getAllOfTable, submitEntry} from '../scripts/api'
 import AddNewEntry_VariableRow from './subcomponents/AddNewEntry_VariableRow'
+import AddNewEntry_InputRangeBar from './subcomponents/AddNewEntry_InputRangeBar'
 import {validateVariableValues, variableValuesToolTipMessages} from '../scripts/utils/validation'
 
 class AddEntry extends React.Component {
+
   constructor(props) {
     super(props)
-    this.state = {
+    this.freshState = {
         variables: [],
         newVariable: {
           name: 'newVariable',
@@ -20,6 +22,7 @@ class AddEntry extends React.Component {
         energy: '3',
         outlook: '3'
     }
+    this.state = this.freshState
   }
 
   componentDidMount() {
@@ -29,8 +32,11 @@ class AddEntry extends React.Component {
   getVariables() {
     getAllOfTable('variable', (variables) => {
       variables.forEach((variable) => {
-        variable.value = '',
-        variable.disabled = false
+        let i = this.state.variables.findIndex((v) => { // Check if variable already exists
+          return v.id == variable.id
+        })
+        variable.value = i != -1 ? this.state.variables[i].value : '' // Assign old values
+        variable.disabled = i != -1 ? this.state.variables[i].disabled : false
       })
       this.setState({
         variables,
@@ -57,19 +63,7 @@ class AddEntry extends React.Component {
   }
 
   refresh() {
-    this.setState({
-      variables: [],
-      newVariable: {
-        name: 'newVariable',
-        value: '',
-        disabled: false
-      },
-      validated: 'default',
-      invalid: [],
-      entry: '',
-      energy: '3',
-      outlook: '3'
-    })
+    this.setState(this.freshState)
     this.getVariables()
   }
 
@@ -93,50 +87,34 @@ class AddEntry extends React.Component {
       i.value = e.target.value
       this.setState({ variables: this.state.variables})
     }
-    var inputs = [...this.state.variables]
-    inputs.push(this.state.newVariable)
+    this.validateEach()
+  }
+
+  validateEach() {
+    var inputs = [...this.state.variables, this.state.newVariable]
     Array.from(inputs).forEach((input) => {
       validateVariableValues.call(this, input)
     })
   }
 
   render() {
-    let createButton =  this.state.invalid.length ? 'button-primary disabled' : 'button-primary'
     return (
       <div className="container">
         <form method="post">
 
-          <div className="row range">
-            <div className="three columns">
-              <label htmlFor="energyBar">
-                <h5 className="title inline h7">Low Energy</h5>
-              </label>
-            </div>
-            <div className="six columns">
-              <input type="range" min="1" max="5" name="energy" id="energyBar" value={this.state.energy} onChange={(e) => this.updateForm(e)}/>
-            </div>
-            <div className="three columns">
-              <label htmlFor="energyBar">
-                <h5 className="title inline h7">High Energy</h5>
-              </label>
-            </div>
-          </div>
+          <AddNewEntry_InputRangeBar
+            title="energy"
+            leftInput="Low Energy"
+            rightInput="High Energy"
+            value={this.state.energy}
+            updateForm={this.updateForm.bind(this)}/>
 
-          <div className="row range section">
-            <div className="three columns">
-              <label htmlFor="outlookBar">
-                <h5 className="title inline h7">Negative</h5>
-              </label>
-            </div>
-            <div className="six columns">
-              <input type="range" min="1" max="5" name="outlook" id="outlookBar" value={this.state.outlook} onChange={(e) => this.updateForm(e)}/>
-            </div>
-            <div className="three columns">
-              <label htmlFor="outlookBar">
-                <h5 className="title inline h7">Positive</h5>
-              </label>
-            </div>
-          </div>
+          <AddNewEntry_InputRangeBar
+            title="outlook"
+            leftInput="Negative"
+            rightInput="Positive"
+            value={this.state.outlook}
+            updateForm={this.updateForm.bind(this)}/>
 
           <AddNewEntry_VariableRow
             variables={this.state.variables}
@@ -151,7 +129,8 @@ class AddEntry extends React.Component {
           </div>
 
           <div className="row">
-            <button type="submit" className={createButton} id="createButton" onClick={(e) => this.submitForm(e)}>Create</button>
+            <button
+              type="submit" className={`button-primary ${this.state.invalid.length ? 'disabled' : ''}`} id="createButton" onClick={(e) => this.submitForm(e)}>Create</button>
           </div>
         </form>
       </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import streamGraph from '../../scripts/d3/home'
+import streamGraph from '../scripts/d3/home'
 import {makeDataRequest, getAllOfTable} from '../scripts/api'
 import jump from 'jump.js'
 import moment from 'moment'
