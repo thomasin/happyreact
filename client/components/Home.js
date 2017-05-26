@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import streamGraph from '../../scripts/d3/home'
-import {makeDataRequest, getAllOfTable} from '../../scripts/api'
+import {makeDataRequest, getAllOfTable} from '../scripts/api'
 import jump from 'jump.js'
 import moment from 'moment'
 
@@ -37,7 +37,6 @@ class Home extends React.Component {
   }
 
   render() {
-    let entriesList = this.displayEntries(this.state.entries)
     return (
       <div>
         <div className="row" id="svgContainer">
@@ -50,7 +49,7 @@ class Home extends React.Component {
             </div>
           </div>
           <div className="entries-list">
-            {entriesList}
+            {this.displayEntries(this.state.entries)}
           </div>
         </div>
       </div>
