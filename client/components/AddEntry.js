@@ -51,7 +51,7 @@ class AddEntry extends React.Component {
 
   submitForm(e) {
     e.preventDefault()
-    if (!invalid.length) {
+    if (!this.state.invalid.length) {
       submitEntry(this.state, (err) => this.submitFeedback(err))
     }
   }

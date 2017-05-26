@@ -33,25 +33,33 @@ export function addVariable (variableName, callback) {
 }
 
 export function submitEntry (entryData, callback) {
-  let title = ''
-  let text = ''
-  if (entryData.entry.indexOf('\n') < 50) {
-    title = entryData.entry.substring(0,entryData.entry.indexOf("\n"))
-    text = entryData.entry.substring(entryData.entry.indexOf("\n"))
-  } else {
-    title = entryData.entry.substring(0, 47) + '...'
-    text = '...' + entryData.entry.substring(47)
-  }
+  let body = parseEntryText(entryData.entry)
   request
     .post('/add-entry')
     .send({
-      'title': title || '',
-      'text': text || '',
+      'title': body.title || '',
+      'text': body.text || '',
       'mood_id': parseInt(entryData.energy + entryData.outlook),
       'variables': entryData.variables
     })
     .end((err, res) => {
       if (err) { callback(err) }
-      else { callback(res) }
+      else { callback() }
     })
+}
+
+function parseEntryText(text) {
+  let title = ''
+  let body = ''
+  if (text.indexOf('\n') < 50) {
+    title = text.substring(0,text.indexOf("\n"))
+    body = text.substring(text.indexOf("\n"))
+  } else {
+    title = text.substring(0, 47) + '...'
+    body = '...' + text.substring(47)
+  }
+  return {
+    title: title,
+    text: body
+  }
 }
