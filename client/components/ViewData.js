@@ -14,8 +14,13 @@ class ViewData extends React.Component {
 
   render() {
     return (
+      <div className="flexWrap">
+      <div className="container" id="legendRow">
+        <div className="row legendRow"></div>
+      </div>
       <div className="row" id="svgContainer">
         <svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 960 500"></svg>
+      </div>
       </div>
     )
   }
