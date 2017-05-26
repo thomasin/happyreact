@@ -1,9 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import streamGraph from '../scripts/d3/home'
-import {makeDataRequest, getAllOfTable} from '../scripts/api'
 import jump from 'jump.js'
 import moment from 'moment'
+
+import streamGraph from '../scripts/d3/home'
+import {makeDataRequest, getAllOfTable} from '../scripts/api'
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -27,9 +29,9 @@ class Home extends React.Component {
       return (
         <div key={entry.id} className="row">
             <div className="twelve columns">
-              <button className="u-full-width" id={`entry-${entry.id}`}>
+              <Link to={`/${entry.id}`} className="button u-full-width" id={`entry-${entry.id}`}>
                 { entry.title ? entry.title : moment(`${entry.created_at} +0000`, "YYYY-MM-DD kk:mm:ss ZZ").local().format("Do MMM YYYY") }
-              </button>
+              </Link>
             </div>
         </div>
       )
