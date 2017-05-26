@@ -7,7 +7,6 @@ import trim from 'trim'
 class AddNewEntry_VariableRow extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props.newVariable)
     this.state = {
       variables: props.variables,
       newVariable: props.newVariable,
@@ -27,8 +26,8 @@ class AddNewEntry_VariableRow extends React.Component {
 
   submitVariable(e) {
     e.preventDefault()
-    if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable) != '') { // Make sure submitted variable name is valid
-      addVariable(this.state.newVariable.name, () => this.props.getVariables()) // Add to database
+    if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable.value) != '') { // Make sure submitted variable name is valid
+      addVariable(this.state.newVariable.value, () => this.props.getVariables()) // Add to database
     }
   }
 

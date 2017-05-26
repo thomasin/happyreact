@@ -30,7 +30,7 @@ app.get('/getAll', (req, res) => {
 })
 
 app.post('/add-variable', (req, res) => {
-  db.addVariable(req.app.get('connection'), req.body.newVariable)
+  db.addVariable(req.app.get('connection'), req.body.variableName)
     .then(() => {
       res.sendStatus(200)
     })

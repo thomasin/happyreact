@@ -25,7 +25,7 @@ export function getAllOfTable (tableName, callback) {
 export function addVariable (variableName, callback) {
   request
     .post('/add-variable')
-    .send(variableName)
+    .send({variableName})
     .end((err, res) => {
       if (err) { callback(err) }
       else { callback() }
@@ -33,7 +33,6 @@ export function addVariable (variableName, callback) {
 }
 
 export function submitEntry (entryData, callback) {
-  console.log(entryData.variables)
   let title = ''
   let text = ''
   if (entryData.entry.indexOf('\n') < 50) {

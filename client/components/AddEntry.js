@@ -96,7 +96,6 @@ class AddEntry extends React.Component {
     var inputs = [...this.state.variables]
     inputs.push(this.state.newVariable)
     Array.from(inputs).forEach((input) => {
-      console.log(input)
       validateVariableValues.call(this, input)
     })
   }
