@@ -44,4 +44,6 @@ Ok lifted the state up which was both more and less confusing than I expected (t
 
 ## 26/05
 
-Had a rough day today and just wanted something nice and fun to take my mind off of it so I worked on my 'view data' graph which was still not quite finished. I added colour coded legends with an option to click to remove the line from the graph. This was nice and way simpler than I expected it to be. Really shows the power of d3 once you get used to the library. I don't want to but after I get the ability to hover over a legend andhighlight corresponding line I'm going to refactor and write tests
+Had a rough day today and just wanted something nice and fun to take my mind off of it so I worked on my 'view data' graph which was still not quite finished. I added colour coded legends with an option to click to remove the line from the graph. This was nice and way simpler than I expected it to be. Really shows the power of d3 once you get used to the library. I don't want to but after I get the ability to hover over a legend andhighlight corresponding line I'm going to refactor and write tests.
+
+Came across an interesting bug! For each variable in my submitted entry I needed to call the db.addVariable function. This is of course a promise and when I was looping it wouldn't work. I had to use Promise.all(promiseArr) where for each variable I pushed the promise function onto an array and called it afterwards. Promises have some super fascinating functionality.
