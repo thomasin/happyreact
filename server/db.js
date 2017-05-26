@@ -29,14 +29,6 @@ function convertCreatedToDate(entries) {
 
 // ----- Create entry ----- //
 
-// function preloadVariableValues(variables, data) {
-//   for (const pair of Object.entries(data)) {
-//     var matchingVar = variables.find((row) => {
-//       return row.id == pair[0]
-//     })
-//     if (matchingVar) { matchingVar.value = pair[1] }
-//   }
-// }
 
 function addEntry(connection, entryData) {
   return connection('entry')
@@ -48,25 +40,25 @@ function addEntry(connection, entryData) {
 }
 
 function addVariableEntry(connection, variable, entry_id) {
-
   let variableObj = {
-    'y': 1,
-    'yes': 1,
-    'true': 1,
-    'n': 0,
-    'no': 0,
-    'false': 0
+    'y': '1',
+    'yes': '1',
+    'true': '1',
+    'n': '0',
+    'no': '0',
+    'false': '0',
+    '':'0'
   }
 
-  if (isNaN(variable.value)) {
-    variable.value = variableObj[variable.value] || 0
+  if (isNaN(variable.value) || variable.value == '') {
+    variable.value = variableObj[variable.value] || '0'
   }
 
   return connection('entry_variable')
     .insert({
       entry_id: entry_id,
       variable_id: variable.id,
-      value: variable.value
+      value: parseInt(variable.value)
     })
 }
 

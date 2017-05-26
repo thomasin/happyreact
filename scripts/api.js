@@ -33,6 +33,7 @@ export function addVariable (variableName, callback) {
 }
 
 export function submitEntry (entryData, callback) {
+  console.log(entryData.variables)
   let title = ''
   let text = ''
   if (entryData.entry.indexOf('\n') < 50) {

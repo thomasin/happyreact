@@ -142,15 +142,12 @@ input.invalid:focus {
   width: 20%;
 }
 
-div.faded {
+.faded {
   color: #ddd !important;
 }
 
-div.faded:hover {
-  color: #333 !important;
-}
 
-div.legend:hover {
+.legend:hover {
   color: #000 !important;
 }
 

@@ -15,7 +15,6 @@ app.use(express.static('public'))
 app.get('/getData', (req, res) => {
   db.getAllData(req.app.get('connection'))
     .then((data) => {
-      console.log(data)
       res.json(data)
       res.end()
     })
@@ -25,7 +24,6 @@ app.get('/getData', (req, res) => {
 app.get('/getAll', (req, res) => {
   db.getAll(req.app.get('connection'), req.query.tableName)
     .then((data) => {
-      console.log(data)
       res.json(data)
       res.end()
     })
@@ -41,10 +39,12 @@ app.post('/add-variable', (req, res) => {
 app.post('/add-entry', (req, res) => {
   db.addEntry(req.app.get('connection'), req.body)
     .then((entry_id) => {
+      let promises = []
       req.body.variables.forEach((variable) => {
-        db.addVariableEntry(req.app.get('connection'), variable, entry_id)
-          .catch(console.log)
+        let promise = db.addVariableEntry(req.app.get('connection'), variable, entry_id[0])
+        promises.push(promise)
       })
+      return Promise.all(promises)
     })
     .then(() => {
       res.sendStatus(200)
