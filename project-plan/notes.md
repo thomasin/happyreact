@@ -41,3 +41,7 @@ Haven't had much progress recently, had to pause while we studied APIs. Converte
 Have 5 passing tests now, and I've got validation and submit for variables working except I think I need to lift the state up from the variable row component to the main add Entry component so changes in the variable row can be reflected in the add Entry state. This is a venture into proper React State territory!
 
 Ok lifted the state up which was both more and less confusing than I expected (that's confusing hahahaha). Things to remember is when updated props they are defined as 'newProps' otherwise you're just setting the state to the old ones over and over again! Also, keep things that the parent component doesnt need to know about always in the child.
+
+## 26/05
+
+Had a rough day today and just wanted something nice and fun to take my mind off of it so I worked on my 'view data' graph which was still not quite finished. I added colour coded legends with an option to click to remove the line from the graph. This was nice and way simpler than I expected it to be. Really shows the power of d3 once you get used to the library. I don't want to but after I get the ability to hover over a legend andhighlight corresponding line I'm going to refactor and write tests

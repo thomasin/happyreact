@@ -95,7 +95,7 @@ export default function createGraphs(request) {
       .on("click", () => {
         var active = activeObj[i] ? false : true
         var newOpacity = active ? 0 : 1
-        d3.select(`#line${i}`)
+        g.select(`#line${i}`)
           .transition().duration(500)
           .style("opacity", newOpacity)
         d3.select(`#legend-${i}`)
@@ -103,11 +103,11 @@ export default function createGraphs(request) {
         activeObj[i] = active
       })
       .on("mouseover", () => {
-        d3.select(`#line-${i}`)
-          .attr("stroke", "#000")
+        g.select(`#line${i}`)
+          .attr("stroke", '#000')
       })
       .on("mouseout", () => {
-        d3.select(`#line-${i}`)
+        g.select(`#line${i}`)
           .attr("stroke", z(colourScale(i)))
       })
   }
