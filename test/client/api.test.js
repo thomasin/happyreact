@@ -1,7 +1,7 @@
 import test from 'ava'
 import nock from 'nock'
 
-import * as api from '../../scripts/api'
+import * as api from '../../client/scripts/api'
 
 test.cb('get Data connecting to server', t => {
   var expected = { test: 'test passed' }
@@ -16,6 +16,7 @@ test.cb('get Data connecting to server', t => {
     t.end()
   })
 })
+
 
 test.cb('get All Of Table connecting to server', t => {
   var expected = { test: 'test passed' }

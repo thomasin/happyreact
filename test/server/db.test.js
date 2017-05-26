@@ -37,7 +37,30 @@ test('addVariable adds a new variable to the variable table', t => {
 
 test('addEntry adds a entry to the variable table', t => {
   let entry = {
-    
-  }
+    title: "I'm a test",
+    text: 'Hello',
+    mood_id: 33,
+    }
   return db.addEntry(t.context.connection, entry)
+    .then((id) => {
+        return db.getAll(t.context.connection, 'entry')
+    })
+    .then((entries) => {
+      t.is(entries[entries.length-1].title, entry.title)
+    })
+})
+
+test('addVariableEntry adds correctly', t => {
+  let variable = {
+    variable_id: 2,
+    value: '34'
+  }
+  let entry_id = 1
+  return db.addVariableEntry(t.context.connection, variable, entry_id)
+    .then((id) => {
+      return db.getAll(t.context.connection, 'entry_variable')
+    })
+    .then((result) => {
+      t.is(result[result.length-1].entry_id, entry_id)
+    })
 })
