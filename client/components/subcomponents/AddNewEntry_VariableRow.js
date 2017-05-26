@@ -38,7 +38,13 @@ class AddNewEntry_VariableRow extends React.Component {
       return (
         <div className="three columns" key={variable.id}>
           <label htmlFor={variable.name}>{variable.name}</label>
-          <input type="text" className={variableClasses} value={variable.value} name={variable.id} id={variable.name} onChange={(e) => this.props.updateVariables(e)} />
+          <input
+            type="text"
+            className={variableClasses}
+            value={variable.value}
+            name={variable.id}
+            id={variable.name}
+            onChange={(e) => this.props.updateVariables(e)} />
         </div>
       )
     })
@@ -58,7 +64,14 @@ class AddNewEntry_VariableRow extends React.Component {
         <div className="three columns">
           <label htmlFor="newVariable">~</label>
           <div className="together">
-            <input type="text" name="newVariable" className={newVariableClasses} id="newVariable" placeholder="Add new variable" onChange={(e) => this.props.updateVariables(e)} value={this.state.newVariable.value}/>
+            <input
+              type="text"
+              name="newVariable"
+              className={newVariableClasses}
+              id="newVariable"
+              placeholder="Add new variable"
+              onChange={(e) => this.props.updateVariables(e)}
+              value={this.state.newVariable.value}/>
             <button className="button rightInput" id="submitVariable" onClick={(e) => this.submitVariable(e)}>></button>
           </div>
         </div>

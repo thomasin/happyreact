@@ -21,12 +21,19 @@ app.get('/getData', (req, res) => {
     .catch(console.log)
 })
 
+
 app.get('/getAll', (req, res) => {
-  db.getAll(req.app.get('connection'), req.query.tableName)
-    .then((data) => {
-      res.json(data)
-      res.end()
-    })
+  let whiteList = ['variable', 'entry']
+  if (!whiteList.includes(req.query.tableName)) {
+    res.sendStatus(401)
+  } else {
+    db.getAll(req.app.get('connection'), req.query.tableName)
+      .then((data) => {
+        res.json(data)
+        res.end()
+      })
+      .catch(console.log)
+  }
 })
 
 app.post('/add-variable', (req, res) => {
@@ -34,6 +41,7 @@ app.post('/add-variable', (req, res) => {
     .then(() => {
       res.sendStatus(200)
     })
+    .catch(console.log)
 })
 
 app.post('/add-entry', (req, res) => {

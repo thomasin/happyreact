@@ -1,15 +1,8 @@
 
 module.exports = {
   getAll,
-  joinTwo,
-  joinTable,
-  getNextEntry,
-  getPrevEntry,
-  getMoodData,
   addVariable,
-  joinTableAll,
   getAllData,
-  convertCreatedToDate,
   addEntry,
   addVariableEntry
 }
@@ -19,12 +12,6 @@ module.exports = {
 function getAll(connection, tableName) {
   return connection(tableName)
     .select()
-}
-
-function convertCreatedToDate(entries) {
-  return entries.forEach((entry) => {
-    entry.created_at = new Date(entry.created_at).toDateString()
-  })
 }
 
 // ----- Create entry ----- //
@@ -128,24 +115,4 @@ function joinTable(connection, id) {
   return connection('entry_variable')
     .join('variable', 'entry_variable.variable_id', '=', 'variable.id')
     .where('entry_variable.entry_id', id)
-}
-
-// ----- View page ----- //
-
-function getNextEntry(connection, id) {
-  return connection('entry')
-    .where('entry.id', '>', id)
-    .first()
-}
-
-function getPrevEntry(connection, id) {
-  return connection('entry')
-    .where('entry.id', '<', id)
-    .then((result) => {
-      return last(result)
-    })
-}
-
-function last(input) {
-  return input[input.length-1]
 }
