@@ -50,6 +50,36 @@ test('addEntry adds a entry to the variable table', t => {
     })
 })
 
+test('getEntry returns correct entry', t => {
+  let entry = {
+    title: "I'm a test",
+    text: 'Hello',
+    mood_id: 33,
+    }
+  return db.addEntry(t.context.connection, entry)
+    .then((id) => {
+        return db.getEntry(t.context.connection, id[0])
+    })
+    .then((result) => {
+      t.is(result.text, entry.text)
+    })
+})
+
+test('getVariablesForEntry returns correct variables', t => {
+  let variable = {
+    variable_id: 2,
+    value: '34'
+  }
+  let entry_id = 1
+  return db.addVariableEntry(t.context.connection, variable, entry_id)
+    .then(() => {
+      return db.getVariablesForEntry(t.context.connection, entry_id)
+    })
+    .then((result) => {
+      t.is(result[0].value, parseInt(variable.value))
+    })
+})
+
 test('addVariableEntry adds correctly', t => {
   let variable = {
     variable_id: 2,

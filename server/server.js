@@ -18,7 +18,10 @@ app.get('/getData', (req, res) => {
       res.json(data)
       res.end()
     })
-    .catch(console.log)
+    .catch((err) => {
+      console.log(err)
+      res.sendStatus(500)
+    })
 })
 
 
@@ -32,14 +35,17 @@ app.get('/getAll', (req, res) => {
         res.json(data)
         res.end()
       })
-      .catch(console.log)
+      .catch((err) => {
+        console.log(err)
+        res.send(err)
+      })
   }
 })
 
 app.post('/add-variable', (req, res) => {
   db.addVariable(req.app.get('connection'), req.body.variableName)
     .then(() => {
-      res.sendStatus(200)
+      res.send(req.body.variableName)
     })
     .catch(console.log)
 })

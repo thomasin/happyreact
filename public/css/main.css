@@ -4,11 +4,6 @@
   stroke-width: 2px;
 }
 
-
-body {
-  padding-top: 2%;
-}
-
 .container {
   text-align: center;
 }
@@ -124,6 +119,10 @@ input.invalid:focus {
 
 /* Navigation */
 
+.nav {
+  margin-top: 1%;
+}
+
 .button-nav {
   background-color: none;
   border: none;
@@ -171,7 +170,6 @@ input.invalid:focus {
 #svgContainer {
   width: 100%;
   flex: 1 1 auto;
-  margin: auto;
 }
 
 .downArrow {

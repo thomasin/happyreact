@@ -4,7 +4,9 @@ module.exports = {
   addVariable,
   getAllData,
   addEntry,
-  addVariableEntry
+  addVariableEntry,
+  getEntry,
+  getVariablesForEntry
 }
 
 // ----- Re-usable ----- //
@@ -15,6 +17,17 @@ function getAll(connection, tableName) {
 }
 
 // ----- Create entry ----- //
+
+function getEntry(connection, id) {
+  return connection('entry')
+    .where('id', id)
+    .first()
+}
+
+function getVariablesForEntry(connection, id) {
+  return connection('entry_variable')
+    .where('entry_id', id)
+}
 
 
 function addEntry(connection, entryData) {

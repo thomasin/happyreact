@@ -48,3 +48,12 @@ Had a rough day today and just wanted something nice and fun to take my mind off
 
 Came across an interesting bug! For each variable in my submitted entry I needed to call the db.addVariable function. This is of course a promise and when I was looping it wouldn't work. I had to use Promise.all(promiseArr) where for each variable I pushed the promise function onto an array and called it afterwards. Promises have some super fascinating functionality.
 Now time for refactoring (:
+
+## 29/05
+
+More on the graph:
+It is interesting what a fine line there is between gorgeous and functional. I'm really falling for d3 and graph creation it's a nice blend of beautiful coding and immediate, useful result. I have two options now, I have created a 0.2 opacity area underneath my lines. I haven't assigned a curve function to my area so it's jagged and I think it looks like art. The lines would probably be more functional and easier to perceive but how often do you get to create sketchy zoomable hills! It makes me so happy to look at! I seriously have to refactor this code is disgusting that will be my task for tonight. Also I want less ticks on the axis, which shouldn't be too hard. I like how the area colour hits the bottom of the screen (-:
+
+Ok first thing for refactoring is to just break the code up. Don't worry about passing heaps of arguments through or feeling like it's super hacky just force it all apart. This shows you the flow of your code, what variables are needed where, which ones tend to always be grouped up, how to structure and order the file. Make sure you do this very, very slowly. One function at a time, keep changes tiny. It's easy to make a mistake and bust everything so you don't want to be in too deep when it all goes wrong! I have a function with 9 arguments right now hehe. It won't stay that way forever but it's important to remember it won't all happen at once.
+If it seems too hard or it's confusing you, stop! Move on, there's no rush and often functions will just fall into place after a bit more setup.
+If you're staring at a bit of code and you think 'there has to be a simpler way to do this', there probably is. Google it straight away! 
