@@ -1,5 +1,8 @@
 import moment from 'moment'
 
+
+// Initialise
+
 function setTime(data) {
   let parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S")
   data.forEach((row) => {
@@ -15,7 +18,7 @@ function setDimensions() {
   return { width, height, margin }
 }
 
-function setScaleX(data, dim) {
+function setScaleX(data, width) {
   let xScaleMax = d3.max(data, function(d) { return d.date; })
   let xScale = d3.scaleTime()
       .range([0, width])
@@ -28,6 +31,45 @@ function setScaleY(variable, i, yScale, dim, data) {
     .range([(dim.height - dim.margin.top - dim.margin.bottom), 0])
     .domain(d3.extent(data, (d) => d[variable]))
 }
+
+function createContainers(dim, zoom, xScale, xScaleMax, initialZoomX) {
+  let { width, height, margin } = dim
+  let svg = d3.select("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .call(zoom)
+
+  let g = svg.append("g")
+    .attr("transform",
+        "translate(" + margin.left + ","+ margin.top + ")")
+
+  svg.transition()
+    .duration(1500)
+    .call(zoom.transform, d3.zoomIdentity
+    .scale(width / (xScale(xScaleMax) - xScale(initialZoomX)))
+    .translate(-xScale(initialZoomX), 0))
+
+  return { svg, g }
+}
+
+function createZoom(dim, redrawChart) {
+  let { width, height } = dim
+  return d3.zoom()
+    .scaleExtent([1, 5])
+    .translateExtent([[0, 0], [width, height]])
+    .extent([[0, 0], [width, height]])
+    .on("zoom", redrawChart)
+}
+
+function setColourScale(variables) {
+  let colourScale = d3.scaleLinear()
+    .range([0, 1])
+    .domain([0, variables.length])
+
+  let z = d3.interpolateRainbow
+  return { z, colourScale }
+}
+
+// Draw
 
 function createValueLine(variable, i, xScale, yScale, valueLines, data) {
   valueLines[`l${i}`] = d3.line() // Define corresponding curve
@@ -107,43 +149,6 @@ function legendHover(i, g, c, mouseAction) {
     .attr("stroke", () => mouseAction ? '#000' : c.z(c.colourScale(i)))
 }
 
-function createContainers(dim, zoom, xScale, xScaleMax, initialZoomX) {
-  let { width, height, margin } = dim
-  let svg = d3.select("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .call(zoom)
-
-  let g = svg.append("g")
-    .attr("transform",
-        "translate(" + margin.left + ","+ margin.top + ")")
-
-  svg.transition()
-    .duration(1500)
-    .call(zoom.transform, d3.zoomIdentity
-    .scale(width / (xScale(xScaleMax) - xScale(initialZoomX)))
-    .translate(-xScale(initialZoomX), 0))
-
-  return { svg, g }
-}
-
-function createZoom(dim, redrawChart) {
-  let { width, height } = dim
-  return d3.zoom()
-    .scaleExtent([1, 5])
-    .translateExtent([[0, 0], [width, height]])
-    .extent([[0, 0], [width, height]])
-    .on("zoom", redrawChart)
-}
-
-function setColourScale(variables) {
-  let colourScale = d3.scaleLinear()
-    .range([0, 1])
-    .domain([0, variables.length])
-
-  let z = d3.interpolateRainbow
-  return { z, colourScale }
-}
-
 function drawAxis(g, dim) {
   return g.append("g")
       .attr("class", "xAxis title")
@@ -155,7 +160,8 @@ export default function createGraphs(request) {
   var {data, variableList} = request.body
 
     // Initialise
-    let variables = [...variableList, 'energy', 'outlook']
+    let initialVars = ['energy', 'outlook']
+    let variables = [...variableList, ...initialVars]
     let initialZoomX = setTime(data) // Parse the times in the date column, set initial zoom for X
     let dim = setDimensions() // Set dimensions for graph viewport
     let { xScale, xScaleMax } = setScaleX(data, dim.width) // Set x scale
@@ -168,9 +174,9 @@ export default function createGraphs(request) {
       areaMap = {},
       activeObj = {}
     let legendContainer = d3.select(".legendRow")
-    let initialVars = ['energy', 'outlook']
 
 
+    // Draw
     variables.forEach((variable, i) => {
       activeObj[i] = initialVars.includes(variable) ? false : true
       setScaleY(variable, i, yScale, dim, data)
