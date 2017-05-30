@@ -6,6 +6,21 @@ import app from '../../server/server'
 let configureDatabase = require('./helpers/database-config')
 configureDatabase(test, app)
 
+test.serial.cb('POST /add-variable adds a variable', t => {
+  request(t.context.app)
+    .post('/add-variable')
+    .send({
+      variableName: 'Im a variable'
+    })
+    .expect(201)
+    .then(() => {
+      return t.context.connection('variable').select()
+    })
+    .then((res) => {
+          t.is(res[res.length-1].name, 'Im a variable')
+          t.end()
+    })
+})
 
 test.cb('GET /getData returns data', t => {
   request(t.context.app)
@@ -55,22 +70,6 @@ test.cb('GET /getAll of variables returns variables', t => {
     .end((err, res) => {
       t.is(res.body[4].name, "On period")
       t.end()
-    })
-})
-
-test.serial.cb('POST /add-variable adds a variable', t => {
-  request(t.context.app)
-    .post('/add-variable')
-    .send({
-      variableName: 'Im a variable'
-    })
-    .expect(201)
-    .then(() => {
-      return t.context.connection('variable').select()
-    })
-    .then((res) => {
-          t.is(res[res.length-1].name, 'Im a variable')
-          t.end()
     })
 })
 
