@@ -19,7 +19,16 @@ exports.seed = function (knex, Promise) {
         knex('entry_variable').insert({entry_id: 77, variable_id: 58, value: 1}),
         knex('entry_variable').insert({entry_id: 78, variable_id: 60, value: 0}),
         knex('entry_variable').insert({entry_id: 78, variable_id: 56, value: 11}),
-        knex('entry_variable').insert({entry_id: 78, variable_id: 59, value: 1})
+        knex('entry_variable').insert({entry_id: 78, variable_id: 59, value: 1.5}),
+        knex('entry_variable').insert({entry_id: 79, variable_id: 60, value: 0}),
+        knex('entry_variable').insert({entry_id: 79, variable_id: 56, value: 8}),
+        knex('entry_variable').insert({entry_id: 79, variable_id: 59, value: 2}),
+        knex('entry_variable').insert({entry_id: 80, variable_id: 58, value: 1}),
+        knex('entry_variable').insert({entry_id: 80, variable_id: 56, value: 7}),
+        knex('entry_variable').insert({entry_id: 80, variable_id: 59, value: 1.5}),
+        knex('entry_variable').insert({entry_id: 81, variable_id: 60, value: 0}),
+        knex('entry_variable').insert({entry_id: 81, variable_id: 56, value: 8}),
+        knex('entry_variable').insert({entry_id: 81, variable_id: 57, value: 15})
       ]);
     });
 };

@@ -54,7 +54,7 @@ function createContainers(dim, zoom, xScale, xScaleMax, initialZoomX) {
 function createZoom(dim, redrawChart) {
   let { width, height } = dim
   return d3.zoom()
-    .scaleExtent([1, 5])
+    .scaleExtent([1, 3])
     .translateExtent([[0, 0], [width, height]])
     .extent([[0, 0], [width, height]])
     .on("zoom", redrawChart)

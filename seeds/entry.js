@@ -13,7 +13,13 @@ exports.seed = function (knex, Promise) {
         knex('entry').insert({id: 77, title: "Sad day ):", text: "Another bad day ):",
         mood_id: 11, created_at: '2017-05-24 06:18:41'}),
         knex('entry').insert({id: 78, title: "", text: "Feeling a bit better now it's the weekend!",
-        mood_id: 33, created_at: '2017-05-25 06:18:41'})
+        mood_id: 33, created_at: '2017-05-25 06:18:41'}),
+        knex('entry').insert({id: 79, title: "Isn't it strange", text: "How my entries every single day are all at the same time? So weird!",
+        mood_id: 42, created_at: '2017-05-26 06:18:41'}),
+        knex('entry').insert({id: 80, title: "", text: "Writing test data is booooooorrrriiiinggg",
+        mood_id: 33, created_at: '2017-05-27 06:18:41'}),
+        knex('entry').insert({id: 81, title: "Hack me", text: "I have an id of 81 hack me",
+        mood_id: 45, created_at: '2017-05-28 06:18:41'})
       ]);
     });
 };

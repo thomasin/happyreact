@@ -56,4 +56,13 @@ It is interesting what a fine line there is between gorgeous and functional. I'm
 
 Ok first thing for refactoring is to just break the code up. Don't worry about passing heaps of arguments through or feeling like it's super hacky just force it all apart. This shows you the flow of your code, what variables are needed where, which ones tend to always be grouped up, how to structure and order the file. Make sure you do this very, very slowly. One function at a time, keep changes tiny. It's easy to make a mistake and bust everything so you don't want to be in too deep when it all goes wrong! I have a function with 9 arguments right now hehe. It won't stay that way forever but it's important to remember it won't all happen at once.
 If it seems too hard or it's confusing you, stop! Move on, there's no rush and often functions will just fall into place after a bit more setup.
-If you're staring at a bit of code and you think 'there has to be a simpler way to do this', there probably is. Google it straight away! 
+If you're staring at a bit of code and you think 'there has to be a simpler way to do this', there probably is. Google it straight away!
+Don't give up
+It'll all work out in the end, if you think you haven't made much progress look again you'll surprise yourself.
+
+Data science isn't super easy to pick up. There are a few flaws with my graphing that I will have to address.
+* All values default to 0 which is fine most of the time, but if you're getting to big numbers grouped together having a data point at 0 is going to send the rest of the data into a squished little pile.
+* The data points are retrospective so the best date for the entry would be halfway between the date of creation and the last entry that was created. However I'm not going for complete accuracy and this will do for now (:
+* I need a way to control the scale extent more, not sure what will happen when data set reaches big numbers. I need to be able to scale to a domain not a factor.
+* Would love appropriate y scaling so the data doesn't get all squished together looking when zoomed out.
+* I'm sure there's something else I'll type it here when I remember

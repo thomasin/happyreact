@@ -45,7 +45,7 @@ app.get('/getAll', (req, res) => {
 app.post('/add-variable', (req, res) => {
   db.addVariable(req.app.get('connection'), req.body.variableName)
     .then(() => {
-      res.send(req.body.variableName)
+      res.sendStatus(201)
     })
     .catch(console.log)
 })

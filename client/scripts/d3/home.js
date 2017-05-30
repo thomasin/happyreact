@@ -1,9 +1,5 @@
 export default function streamGraph(request) {
   var {data, variableList} = request.body
-  if (data.length < 2) {
-    document.getElementById("svgContainer").classList.add("displayNone")
-    document.getElementsByClassName("downArrow").item(0).classList.add("displayNone")
-  } else {
     var width = document.getElementById("svgContainer").clientWidth
     var height = document.getElementById("svgContainer").clientHeight
 
@@ -38,6 +34,4 @@ export default function streamGraph(request) {
       .enter().append("path")
         .attr("d", area)
         .attr("fill", function() { return z(Math.random()); });
-
-      }
     }
