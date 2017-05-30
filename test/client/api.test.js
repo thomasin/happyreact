@@ -17,7 +17,6 @@ test.cb('get Data connecting to server', t => {
   })
 })
 
-
 test.cb('get All Of Table connecting to server', t => {
   var expected = { test: 'test passed' }
   var scope = nock('http://localhost:80/')

@@ -1,11 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {getAllOfTable, addVariable} from '../../scripts/api'
+import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 import trim from 'trim'
 
-class AddNewEntry_VariableRow extends React.Component {
-  constructor(props) {
+class VariableRow extends React.Component {
+  constructor (props) {
     super(props)
     this.state = {
       variables: props.variables,
@@ -15,7 +14,7 @@ class AddNewEntry_VariableRow extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this.setState({
       variables: newProps.variables,
       newVariable: newProps.newVariable,
@@ -24,22 +23,21 @@ class AddNewEntry_VariableRow extends React.Component {
     })
   }
 
-  submitVariable(e) {
+  submitVariable (e) {
     e.preventDefault()
-    if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable.value) != '') { // Make sure submitted variable name is valid
+    if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
       addVariable(this.state.newVariable.value, () => this.props.getVariables()) // Add to database
     }
   }
 
-
-  displayVariables(variables) {
+  displayVariables (variables) {
     return variables.map((variable) => {
       let variableClasses = variable.disabled ? 'variable invalid' : 'variable'
       return (
-        <div className="three columns" key={variable.id}>
+        <div className='three columns' key={variable.id}>
           <label htmlFor={variable.name}>{variable.name}</label>
           <input
-            type="text"
+            type='text'
             className={variableClasses}
             value={variable.value}
             name={variable.id}
@@ -50,10 +48,10 @@ class AddNewEntry_VariableRow extends React.Component {
     })
   }
 
-  render() {
+  render () {
     let newVariableClasses = this.state.newVariable.disabled ? 'leftInput invalid variable' : 'leftInput variable'
     return (
-      <div className="row variableRow section">
+      <div className='row variableRow section'>
 
         <div className={`twelve columns tooltip ${this.state.invalid.length ? '' : 'hidden'}`} >
           {variableValuesToolTipMessages[this.state.validated]}
@@ -61,18 +59,18 @@ class AddNewEntry_VariableRow extends React.Component {
 
         {this.displayVariables(this.state.variables)}
 
-        <div className="three columns">
-          <label htmlFor="newVariable">~</label>
-          <div className="together">
+        <div className='three columns'>
+          <label htmlFor='newVariable'>~</label>
+          <div className='together'>
             <input
-              type="text"
-              name="newVariable"
+              type='text'
+              name='newVariable'
               className={newVariableClasses}
-              id="newVariable"
-              placeholder="Add new variable"
+              id='newVariable'
+              placeholder='Add new variable'
               onChange={(e) => this.props.updateVariables(e)}
-              value={this.state.newVariable.value}/>
-            <button className="button rightInput" id="submitVariable" onClick={(e) => this.submitVariable(e)}>></button>
+              value={this.state.newVariable.value} />
+            <button className='button rightInput' id='submitVariable' onClick={(e) => this.submitVariable(e)}>></button>
           </div>
         </div>
       </div>
@@ -80,5 +78,4 @@ class AddNewEntry_VariableRow extends React.Component {
   }
 }
 
-
-export default AddNewEntry_VariableRow
+export default VariableRow

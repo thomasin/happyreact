@@ -66,3 +66,7 @@ Data science isn't super easy to pick up. There are a few flaws with my graphing
 * I need a way to control the scale extent more, not sure what will happen when data set reaches big numbers. I need to be able to scale to a domain not a factor.
 * Would love appropriate y scaling so the data doesn't get all squished together looking when zoomed out.
 * I'm sure there's something else I'll type it here when I remember
+
+## 30/05
+
+553 errors lol bye 

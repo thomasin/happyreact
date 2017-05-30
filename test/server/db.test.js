@@ -7,7 +7,7 @@ var db = require('../../server/db')
 
 test('getAllData returns array with at least id, date and mood', t => {
   return db.getAllData(t.context.connection)
-    .then(function(result) {
+    .then((result) => {
       t.not(result.data[0].date, undefined)
       t.not(result.data[0].id, undefined)
       t.not(result.data[0].outlook, undefined)
@@ -30,7 +30,7 @@ test('addVariable adds a new variable to the variable table', t => {
     .then(() => {
       return db.getAll(t.context.connection, 'variable')
         .then((variables) => {
-          t.is(variables[variables.length-1].name, "I'm new!")
+          t.is(variables[variables.length - 1].name, "I'm new!")
         })
     })
 })
@@ -39,14 +39,14 @@ test('addEntry adds a entry to the variable table', t => {
   let entry = {
     title: "I'm a test",
     text: 'Hello',
-    mood_id: 33,
-    }
+    mood_id: 33
+  }
   return db.addEntry(t.context.connection, entry)
     .then((id) => {
-        return db.getAll(t.context.connection, 'entry')
+      return db.getAll(t.context.connection, 'entry')
     })
     .then((entries) => {
-      t.is(entries[entries.length-1].title, entry.title)
+      t.is(entries[entries.length - 1].title, entry.title)
     })
 })
 
@@ -54,11 +54,11 @@ test('getEntry returns correct entry', t => {
   let entry = {
     title: "I'm a test",
     text: 'Hello',
-    mood_id: 33,
-    }
+    mood_id: 33
+  }
   return db.addEntry(t.context.connection, entry)
     .then((id) => {
-        return db.getEntry(t.context.connection, id[0])
+      return db.getEntry(t.context.connection, id[0])
     })
     .then((result) => {
       t.is(result.text, entry.text)
@@ -70,10 +70,10 @@ test('getVariablesForEntry returns correct variables', t => {
     variable_id: 2,
     value: '34'
   }
-  let entry_id = 1
-  return db.addVariableEntry(t.context.connection, variable, entry_id)
+  let entryId = 1
+  return db.addVariableEntry(t.context.connection, variable, entryId)
     .then(() => {
-      return db.getVariablesForEntry(t.context.connection, entry_id)
+      return db.getVariablesForEntry(t.context.connection, entryId)
     })
     .then((result) => {
       t.is(result[0].value, parseInt(variable.value))
@@ -85,12 +85,12 @@ test('addVariableEntry adds correctly', t => {
     variable_id: 2,
     value: '34'
   }
-  let entry_id = 1
-  return db.addVariableEntry(t.context.connection, variable, entry_id)
+  let entryId = 1
+  return db.addVariableEntry(t.context.connection, variable, entryId)
     .then((id) => {
       return db.getAll(t.context.connection, 'entry_variable')
     })
     .then((result) => {
-      t.is(result[result.length-1].value, parseInt(variable.value))
+      t.is(result[result.length - 1].value, parseInt(variable.value))
     })
 })

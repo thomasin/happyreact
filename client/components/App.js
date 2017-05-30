@@ -11,10 +11,10 @@ const App = () => {
     <Router>
       <div>
         <Nav />
-        <Route exact={true} path='/' component={Home} />
-        <Route exact={true} path='/view-data' component={ViewData} />
-        <Route exact={true} path='/add-entry' component={AddEntry} />
-        <Route exact={true} path='/:id' component={ViewEntry} />
+        <Route exact path='/' component={Home} />
+        <Route exact path='/view-data' component={ViewData} />
+        <Route exact path='/add-entry' component={AddEntry} />
+        <Route exact path='/:id' component={ViewEntry} />
       </div>
     </Router>
   )

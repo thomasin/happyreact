@@ -1,4 +1,3 @@
-var path = require('path')
 var express = require('express')
 var bodyParser = require('body-parser')
 var db = require('./db')
@@ -23,7 +22,6 @@ app.get('/getData', (req, res) => {
       res.sendStatus(500)
     })
 })
-
 
 app.get('/getAll', (req, res) => {
   let whiteList = ['variable', 'entry']
@@ -52,10 +50,10 @@ app.post('/add-variable', (req, res) => {
 
 app.post('/add-entry', (req, res) => {
   db.addEntry(req.app.get('connection'), req.body)
-    .then((entry_id) => {
+    .then((entryId) => {
       let promises = []
       req.body.variables.forEach((variable) => {
-        let promise = db.addVariableEntry(req.app.get('connection'), variable, entry_id[0])
+        let promise = db.addVariableEntry(req.app.get('connection'), variable, entryId[0])
         promises.push(promise)
       })
       return Promise.all(promises)

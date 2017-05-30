@@ -40,12 +40,14 @@
     "react-dom": "^15.4.2",
     "react-test-renderer": "^15.5.4",
     "sinon": "^2.3.1",
+    "standard": "^10.0.2",
     "supertest": "^3.0.0",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
+    "d3": "^4.9.1",
     "express": "^4.14.0",
     "jump.js": "^1.0.2",
     "knex": "^0.13.0",

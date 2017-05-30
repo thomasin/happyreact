@@ -27,6 +27,6 @@ exports.seed = function (knex, Promise) {
         knex('mood').insert({id: 53, energy: 5, outlook: 3}),
         knex('mood').insert({id: 54, energy: 5, outlook: 4}),
         knex('mood').insert({id: 55, energy: 5, outlook: 5})
-      ]);
-    });
-};
+      ])
+    })
+}

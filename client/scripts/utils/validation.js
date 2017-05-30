@@ -1,6 +1,6 @@
-export function validateVariableValues(input) {
-var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
-  if (input.name == 'newVariable') {
+export function validateVariableValues (input) {
+  var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
+  if (input.name === 'newVariable') {
     if (input.value.length > 20) {
       disableVariable.call(this, input.name, 'variableNameTooLong')
       return false
@@ -11,7 +11,7 @@ var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
   } else {
     if (!allowedWords.includes(input.value.toLowerCase()) && isNaN(input.value)) {
       disableVariable.call(this, input.name, 'wrongType')
-    } else if (input.value.length > 5){
+    } else if (input.value.length > 5) {
       disableVariable.call(this, input.name, 'valueTooLong')
     } else {
       if (this.state.invalid.includes(input.name)) {
@@ -21,28 +21,27 @@ var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
   }
 }
 
-function enableVariable(vName) {
+function enableVariable (vName) {
   setV.call(this, vName, false)
-  this.state.invalid = this.state.invalid.filter((v) => v != vName)
+  this.state.invalid = this.state.invalid.filter((v) => v !== vName)
   set.call(this)
 }
 
-
-function disableVariable(vName, message) {
+function disableVariable (vName, message) {
   setV.call(this, vName, true)
   this.state.invalid.push(vName)
   set.call(this, message)
 }
 
-function setV(vName, bool) {
-  if (vName == 'newVariable') this.state.newVariable.disabled = bool
+function setV (vName, bool) {
+  if (vName === 'newVariable') this.state.newVariable.disabled = bool
   else {
-    let v = this.state.variables.find((v) => v.name == vName)
+    let v = this.state.variables.find((v) => v.name === vName)
     v.disabled = bool
   }
 }
 
-function set(message) {
+function set (message) {
   if (message) this.state.validated = message
   this.setState({
     validated: this.state.validated,
@@ -54,6 +53,6 @@ function set(message) {
 export const variableValuesToolTipMessages = {
   wrongType: 'Variables can have number values or one of y, n, yes, no, true, false (case insensitive yay)',
   valueTooLong: "Values can't be too big! We can't cope ):",
-  variableNameTooLong: "Variable name a bit long",
+  variableNameTooLong: 'Variable name a bit long',
   default: ''
 }

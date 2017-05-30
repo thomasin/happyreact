@@ -29,6 +29,6 @@ exports.seed = function (knex, Promise) {
         knex('entry_variable').insert({entry_id: 81, variable_id: 60, value: 0}),
         knex('entry_variable').insert({entry_id: 81, variable_id: 56, value: 8}),
         knex('entry_variable').insert({entry_id: 81, variable_id: 57, value: 15})
-      ]);
-    });
-};
+      ])
+    })
+}

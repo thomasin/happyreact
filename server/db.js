@@ -11,26 +11,25 @@ module.exports = {
 
 // ----- Re-usable ----- //
 
-function getAll(connection, tableName) {
+function getAll (connection, tableName) {
   return connection(tableName)
     .select()
 }
 
 // ----- Create entry ----- //
 
-function getEntry(connection, id) {
+function getEntry (connection, id) {
   return connection('entry')
     .where('id', id)
     .first()
 }
 
-function getVariablesForEntry(connection, id) {
+function getVariablesForEntry (connection, id) {
   return connection('entry_variable')
     .where('entry_id', id)
 }
 
-
-function addEntry(connection, entryData) {
+function addEntry (connection, entryData) {
   return connection('entry')
     .insert({
       title: entryData.title,
@@ -39,7 +38,7 @@ function addEntry(connection, entryData) {
     })
 }
 
-function addVariableEntry(connection, variable, entry_id) {
+function addVariableEntry (connection, variable, entryId) {
   let variableObj = {
     'y': '1',
     'yes': '1',
@@ -47,22 +46,22 @@ function addVariableEntry(connection, variable, entry_id) {
     'n': '0',
     'no': '0',
     'false': '0',
-    '':'0'
+    '': '0'
   }
 
-  if (isNaN(variable.value) || variable.value == '') {
+  if (isNaN(variable.value) || variable.value === '') {
     variable.value = variableObj[variable.value] || '0'
   }
 
   return connection('entry_variable')
     .insert({
-      entry_id: entry_id,
+      entry_id: entryId,
       variable_id: variable.id,
       value: parseInt(variable.value)
     })
 }
 
-function addVariable(connection, newVariable) {
+function addVariable (connection, newVariable) {
   return connection('variable')
     .insert({
       name: newVariable,
@@ -72,13 +71,13 @@ function addVariable(connection, newVariable) {
 
 // ----- Data to pass to d3 ----- //
 
-function getMoodData(connection) {
+function getMoodData (connection) {
   return connection('entry')
     .join('mood', 'mood_id', '=', 'mood.id')
     .select('entry.id', 'entry.created_at as date', 'energy', 'outlook')
 }
 
-function getAllData(connection) {
+function getAllData (connection) {
   return new Promise((resolve, reject) => {
     getMoodData(connection) // Get mood for each entry
       .then((data) => {
@@ -96,36 +95,23 @@ function getAllData(connection) {
   })
 }
 
-function pivotTable(moodData, variableData, variableList) {
+function pivotTable (moodData, variableData, variableList) {
   moodData.forEach((entry) => {
     variableList.forEach((variable) => {
       var correspondingVal = variableData.find((row) => {
-        return row.entry_id == entry.id && row.variable_id == variable.id
+        return row.entry_id === entry.id && row.variable_id === variable.id
       })
-      if (correspondingVal) { entry[correspondingVal.name] = correspondingVal.value }
-      else (entry[variable.name] = 0)
+      if (correspondingVal) {
+        entry[correspondingVal.name] = correspondingVal.value
+      } else entry[variable.name] = 0
     })
   })
 }
 
 // ----- Joining ----- //
 
-function joinTableAll(connection) {
+function joinTableAll (connection) {
   return connection('entry_variable')
     .join('variable', 'entry_variable.variable_id', '=', 'variable.id')
     .select('entry_variable.entry_id as entry_id', 'variable.id as variable_id', 'entry_variable.value as value', 'variable.name as name')
-}
-
-function joinTwo(connection, id, table1, table2) {
-  return connection(table1)
-    .join(table2, `${table1}.${table2}_id`, '=', `${table2}.id`)
-    .where(`${table1}.id`, id)
-    .select('energy', 'outlook', 'entry.*')
-    .first()
-}
-
-function joinTable(connection, id) {
-  return connection('entry_variable')
-    .join('variable', 'entry_variable.variable_id', '=', 'variable.id')
-    .where('entry_variable.entry_id', id)
 }
