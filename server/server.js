@@ -61,7 +61,7 @@ app.post('/add-entry', (req, res) => {
       return Promise.all(promises)
     })
     .then(() => {
-      res.sendStatus(200)
+      res.sendStatus(201)
     })
     .catch(console.log)
 })
