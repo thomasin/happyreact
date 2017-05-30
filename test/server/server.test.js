@@ -7,7 +7,24 @@ let configureDatabase = require('./helpers/database-config')
 configureDatabase(test, app)
 
 
-test.cb('GET /getAll returns entries', t => {
+test.cb('GET /getData returns data', t => {
+  request(t.context.app)
+    .get('/getData')
+    .expect(200)
+    .end((err, res) => {
+      let keys = Object.keys(res.body.data[0])
+      res.body.variableList.forEach((variable) => {
+        t.is(keys.includes(variable), true)
+      })
+      t.is(keys.includes("id"), true)
+      t.is(keys.includes("date"), true)
+      t.is(keys.includes("energy"), true)
+      t.is(keys.includes("outlook"), true)
+      t.end()
+    })
+})
+
+test.cb('GET /getAll of entries returns entries', t => {
   request(t.context.app)
     .get('/getAll')
     .query({ tableName: 'entry' })
@@ -26,6 +43,17 @@ test.cb('GET /getAll of bad query returns error', t => {
     .expect(401)
     .end((err, res) => {
       t.is(res.status, 401)
+      t.end()
+    })
+})
+
+test.cb('GET /getAll of variables returns variables', t => {
+  request(t.context.app)
+    .get('/getAll')
+    .query({ tableName: 'variable' })
+    .expect(200)
+    .end((err, res) => {
+      t.is(res.body[4].name, "On period")
       t.end()
     })
 })
