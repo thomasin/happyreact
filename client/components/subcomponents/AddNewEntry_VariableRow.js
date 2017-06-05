@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import { initialiseVariables } from '../../actions/formValues'
+import { initialiseVariables, newVariableValue, setValid } from '../../actions/formValues'
 import { getVariables } from '../../actions/variables'
 import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
@@ -17,8 +17,7 @@ class VariableRow extends React.Component {
         value: '',
         disabled: false
       },
-      validated: props.validated,
-      invalid: props.invalid
+      validated: props.validated
     }
   }
 
@@ -31,7 +30,7 @@ class VariableRow extends React.Component {
     }
   }
 
-  updateVariableList() {
+  updateVariableList() { // ANY WAY TO MAKE THIS MORE CONCISE ????
     this.props.dispatch(getVariables())  // Get new variable from database
       .then((result) => {
         this.props.dispatch(initialiseVariables([ // Initialise new variable
@@ -57,6 +56,12 @@ class VariableRow extends React.Component {
     })
   }
 
+  updateVariableValue (e) {
+    this.props.dispatch(newVariableValue(e.target.id, e.target.value))
+    this.validateEach()
+  }
+
+
   displayVariables (variables) {
     return variables.map((variable) => {
       let variableClasses = variable.disabled ? 'variable invalid' : 'variable'
@@ -69,14 +74,14 @@ class VariableRow extends React.Component {
             value={variable.value}
             name={variable.id}
             id={variable.name}
-            onChange={(e) => this.props.updateVariables(e)} />
+            onChange={(e) => this.updateVariableValue(e)} />
         </div>
       )
     })
   }
 
   validateEach () {
-    var inputs = [...this.state.variables, this.state.newVariable]
+    var inputs = [...this.props.variableValues, this.state.newVariable]
     Array.from(inputs).forEach((input) => {
       validateVariableValues.call(this, input)
     })
@@ -87,7 +92,7 @@ class VariableRow extends React.Component {
     return (
       <div className='row variableRow section'>
 
-        <div className={`twelve columns tooltip ${this.state.invalid.length ? '' : 'hidden'}`} >
+        <div className={`twelve columns tooltip ${this.props.invalid.length ? '' : 'hidden'}`} >
           {variableValuesToolTipMessages[this.state.validated]}
         </div>
 

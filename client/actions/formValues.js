@@ -14,10 +14,31 @@ export const initialiseVariables = (variables) => {
   }
 }
 
-export const updateVariable = (variable) => {
+export const newVariableValue = (variableName, variableValue) => {
   return {
-    type: 'UPDATE_VARIABLE',
-    variableName: oldVariable,
-    variableValue: variableValue
+    type: 'UPDATE_VALUE',
+    variableName,
+    variableValue
+  }
+}
+
+export const setValid = (variableName, bool) => {
+  return {
+    type: 'SET_VALID',
+    variableName,
+    bool
+  }
+}
+
+export const enableVariable = (variableName) => {
+  return {
+    type: 'ENABLE_VARIABLE',
+    variableName
+  }
+}
+export const disableVariable = (variableName) => {
+  return {
+    type: 'DISABLE_VARIABLE',
+    variableName
   }
 }

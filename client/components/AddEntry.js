@@ -10,8 +10,6 @@ class AddEntry extends React.Component {
   constructor (props) {
     super(props)
     this.freshState = {
-      validated: 'default',
-      invalid: [],
       entry: '',
       energy: '3',
       outlook: '3'
@@ -25,32 +23,15 @@ class AddEntry extends React.Component {
     })
   }
 
-
-
-  updateVariables (e) {
-    if (e.target.name === 'newVariable') {
-      this.state.newVariable.value = e.target.value
-      this.setState({ newVariable: this.state.newVariable })
-    } else {
-      let i = this.props.variables.find((v) => {
-        return v.id === e.target.name
-      })
-      i.value = e.target.value
-      this.setState({ variables: this.props.variables })
-    }
-    this.validateEach()
-  }
-
   submitForm (e) {
     e.preventDefault()
-    if (!this.state.invalid.length) {
+    if (!this.props.invalid.length) {
       submitEntry(this.state, (err) => this.submitFeedback(err))
     }
   }
 
   refresh () {
     this.setState(this.freshState)
-    this.getVariables()
   }
 
   submitFeedback (err) {
@@ -82,11 +63,7 @@ class AddEntry extends React.Component {
             value={this.state.outlook}
             updateForm={this.updateForm.bind(this)} />
 
-          <VariableRowContainer
-            validated={this.state.validated}
-            invalid={this.state.invalid}
-            updateVariables={this.updateVariables.bind(this)}
-          />
+          <VariableRowContainer />
 
           <div className='row'>
             <textarea className='entryText text' name='entry' onChange={(e) => this.updateForm(e)} value={this.state.entry}>{this.state.entry}</textarea>
@@ -94,7 +71,7 @@ class AddEntry extends React.Component {
 
           <div className='row'>
             <button
-              type='submit' className={`button-primary ${this.state.invalid.length ? 'disabled' : ''}`} id='createButton' onClick={(e) => this.submitForm(e)}>Create</button>
+              type='submit' className={`button-primary ${this.props.invalid.length ? 'disabled' : ''}`} id='createButton' onClick={(e) => this.submitForm(e)}>Create</button>
           </div>
         </form>
       </div>
