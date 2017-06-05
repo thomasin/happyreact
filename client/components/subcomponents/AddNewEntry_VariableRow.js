@@ -1,33 +1,60 @@
 import React from 'react'
+import {connect} from 'react-redux'
+
+import { initialiseVariables } from '../../actions/formValues'
+import { getVariables } from '../../actions/variables'
 import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 import trim from 'trim'
 
 class VariableRow extends React.Component {
   constructor (props) {
+    props.dispatch(initialiseVariables(props.variables))
     super(props)
     this.state = {
-      variables: props.variables,
-      newVariable: props.newVariable,
+      newVariable: {
+        name: 'newVariable',
+        value: '',
+        disabled: false
+      },
       validated: props.validated,
       invalid: props.invalid
     }
   }
 
-  componentWillReceiveProps (newProps) {
-    this.setState({
-      variables: newProps.variables,
-      newVariable: newProps.newVariable,
-      validated: newProps.validated,
-      invalid: newProps.invalid
-    })
-  }
-
   submitVariable (e) {
     e.preventDefault()
     if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
-      addVariable(this.state.newVariable.value, () => this.props.getVariables()) // Add to database
+      addVariable(this.state.newVariable.value, () => { // Add to database
+        this.updateVariableList() // Display new variable in list
+      })
     }
+  }
+
+  updateVariableList() {
+    this.props.dispatch(getVariables())  // Get new variable from database
+      .then((result) => {
+        this.props.dispatch(initialiseVariables([ // Initialise new variable
+          this.props.variables.find((v) => {
+          return v.name === this.state.newVariable.value
+          })
+        ])
+      )})
+      .then(() => {
+        this.setState({ // Reset new variable input
+          newVariable: {
+            name: 'newVariable',
+            value: '',
+            disabled: false
+          }
+        })
+      })
+  }
+
+  updateNewVariable (e) {
+    this.setState({
+      newVariable: {...this.state.newVariable, value: e.target.value}
+    })
   }
 
   displayVariables (variables) {
@@ -48,6 +75,13 @@ class VariableRow extends React.Component {
     })
   }
 
+  validateEach () {
+    var inputs = [...this.state.variables, this.state.newVariable]
+    Array.from(inputs).forEach((input) => {
+      validateVariableValues.call(this, input)
+    })
+  }
+
   render () {
     let newVariableClasses = this.state.newVariable.disabled ? 'leftInput invalid variable' : 'leftInput variable'
     return (
@@ -57,7 +91,7 @@ class VariableRow extends React.Component {
           {variableValuesToolTipMessages[this.state.validated]}
         </div>
 
-        {this.displayVariables(this.state.variables)}
+        {this.displayVariables(this.props.variableValues)}
 
         <div className='three columns'>
           <label htmlFor='newVariable'>~</label>
@@ -68,7 +102,7 @@ class VariableRow extends React.Component {
               className={newVariableClasses}
               id='newVariable'
               placeholder='Add new variable'
-              onChange={(e) => this.props.updateVariables(e)}
+              onChange={(e) => this.updateNewVariable(e)}
               value={this.state.newVariable.value} />
             <button className='button rightInput' id='submitVariable' onClick={(e) => this.submitVariable(e)}>></button>
           </div>
@@ -78,4 +112,5 @@ class VariableRow extends React.Component {
   }
 }
 
+VariableRow = connect()(VariableRow)
 export default VariableRow

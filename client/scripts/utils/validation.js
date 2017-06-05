@@ -1,5 +1,6 @@
 export function validateVariableValues (input) {
   var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
+  console.log(input)
   if (input.name === 'newVariable') {
     if (input.value.length > 20) {
       disableVariable.call(this, input.name, 'variableNameTooLong')

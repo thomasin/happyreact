@@ -274,6 +274,7 @@ input[type=range]::-webkit-slider-thumb {
   width: 20%;
   border-radius: 4px;
   color: #FFF;
+  transition: 0.1s ease-in all;
   background-color: #33C3F0;
   border-color: #33C3F0;
   cursor: pointer;

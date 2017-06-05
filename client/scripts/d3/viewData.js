@@ -1,9 +1,9 @@
 import moment from 'moment'
-import d3 from 'd3'
+// import d3 from 'd3'
 
 export default function createGraphs (request) {
   var {data, variableList} = request.body
-
+  console.log(data)
     // Initialise
   let initialVars = ['energy', 'outlook']
   let variables = [...variableList, ...initialVars]

@@ -4,16 +4,16 @@ import Home from './Home'
 import Nav from './subcomponents/Nav'
 import ViewData from './ViewData'
 import ViewEntry from './ViewEntry'
-import AddEntry from './AddEntry'
+import AddEntryContainer from '../containers/AddEntryContainer'
 
 const App = () => {
   return (
     <Router>
       <div>
-        <Nav />
+        <Route path="*" component={Nav} />
         <Route exact path='/' component={Home} />
         <Route exact path='/view-data' component={ViewData} />
-        <Route exact path='/add-entry' component={AddEntry} />
+        <Route exact path='/add-entry' component={AddEntryContainer} />
         <Route exact path='/:id' component={ViewEntry} />
       </div>
     </Router>
