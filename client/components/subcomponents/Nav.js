@@ -8,8 +8,8 @@ const Nav = props => {
     backgroundColor: randomColour,
     borderColor: randomColour
   }
-  let middleLink = props.location.hash === '#/add-entry' ? <Link to='/' className='button'>Entry List</Link> : <Link to='/add-entry' className='button button-primary' style={middleLinkStyle}>Add entry</Link>
-  let leftLink = props.location.hash === '#/view-data' ? <Link to='/' className='button'>Entry List</Link> : props.location.hash === '#/' ? <Link to='/view-data' className='button'>Look at data</Link> : <Link to='/view-data' className='button'>Look at data</Link>
+  let middleLink = props.location.pathname === '/add-entry' ? <Link to='/' className='button'>Entry List</Link> : <Link to='/add-entry' className='button button-primary' style={middleLinkStyle}>Add entry</Link>
+let leftLink = props.location.pathname === '/view-data' ? <Link to='/' className='button'>Entry List</Link> : props.location.hash === '#/' ? <Link to='/view-data' className='button'>Look at data</Link> : <Link to='/view-data' className='button'>Look at data</Link>
   return (
     <div className='container'>
       <div className='row nav section'>
