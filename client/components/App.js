@@ -1,6 +1,6 @@
 import React from 'react'
 import {HashRouter as Router, Route} from 'react-router-dom'
-import Home from './Home'
+import HomeContainer from '../containers/HomeContainer'
 import Nav from './subcomponents/Nav'
 import ViewData from './ViewData'
 import ViewEntry from './ViewEntry'
@@ -11,7 +11,7 @@ const App = () => {
     <Router>
       <div>
         <Route path="*" component={Nav} />
-        <Route exact path='/' component={Home} />
+        <Route exact path='/' component={HomeContainer} />
         <Route exact path='/view-data' component={ViewData} />
         <Route exact path='/add-entry' component={AddEntryContainer} />
         <Route exact path='/:id' component={ViewEntry} />

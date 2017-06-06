@@ -69,4 +69,16 @@ Data science isn't super easy to pick up. There are a few flaws with my graphing
 
 ## 30/05
 
-553 errors lol bye 
+553 errors lol bye
+
+## 06/06
+
+Things still do do:
+
+* Login and users - CURRENT
+* Correlation graph
+* View entry page and little graph for that
+* Filter/sort/search page
+* Server side validation and sanitisation
+* Error pages and error handling
+* Handle success on entry added

@@ -2,19 +2,21 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import jump from 'jump.js'
 import moment from 'moment'
+import {connect} from 'react-redux'
+import sortBy from 'sort-by'
 
+import { getEntries } from '../actions/entries'
 import streamGraph from '../scripts/d3/home'
 import {makeDataRequest, getAllOfTable} from '../scripts/api'
 
 class Home extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {entries: []}
+    props.dispatch(getEntries())
   }
 
   componentDidMount () {
     makeDataRequest(streamGraph)
-    getAllOfTable('entry', (entries) => this.setState({entries}))
   }
 
   scrollToEntries (e) {
@@ -50,7 +52,7 @@ class Home extends React.Component {
             </div>
           </div>
           <div className='entries-list'>
-            {this.displayEntries(this.state.entries)}
+            {this.displayEntries(this.props.entries.reverse())}
           </div>
         </div>
       </div>
@@ -58,4 +60,5 @@ class Home extends React.Component {
   }
 }
 
+Home = connect()(Home)
 export default Home

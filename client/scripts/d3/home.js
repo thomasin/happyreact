@@ -1,7 +1,7 @@
 // import d3 from 'd3'
 
-export default function streamGraph (request) {
-  let data = request.body.data
+export default function streamGraph (res) {
+  let data = res.data
   var width = document.getElementById('svgContainer').clientWidth
   var height = document.getElementById('svgContainer').clientHeight
 
