@@ -11,7 +11,8 @@ export function getVariables () {
   return (dispatch) => {
     return getAllOfTable('variable')
       .then((variables) => {
-        return dispatch(refreshVariables(variables))
+        dispatch(refreshVariables(variables))
+        return variables
       })
       .catch((err) => {
         throw err

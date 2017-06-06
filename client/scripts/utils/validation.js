@@ -1,6 +1,6 @@
 export function validateVariableValues (input, invalidList) {
   var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
-  if (input.name === 'newVariable') {
+  if (input.id === 'newVariable') {
     if (input.value.length > 20) {
       return { valid: false, msg: 'variableNameTooLong'}
     } else {

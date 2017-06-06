@@ -6,9 +6,9 @@ import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 import trim from 'trim'
 
+
 class VariableRow extends React.Component {
   constructor (props) {
-    props.dispatch(initialiseVariables(props.variables))
     super(props)
     this.state = {
       newVariable: {
@@ -22,7 +22,7 @@ class VariableRow extends React.Component {
 
   submitVariable (e) {
     e.preventDefault()
-    if (validateVariableValues(this.state.newVariable).valid && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
+    if (!validateVariableValues(this.state.newVariable).valid && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
       addVariable(this.state.newVariable.value, () => { // Add to database
         this.updateVariableList() // Display new variable in list
       })
