@@ -23,7 +23,13 @@ export const newVariableValue = (variableName, variableValue, bool) => {
   }
 }
 
-export const toggleDisabledClass = (variableName, bool) => {
+export const reset = (variableName, bool) => {
+  return {
+    type: 'RESET_VALUES'
+  }
+}
+
+export const invalidArray = (variableName, bool) => {
   return {
     type: 'VALIDATE_VARIABLE',
     variableName,

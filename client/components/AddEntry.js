@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import { reset } from '../actions/formValues'
 import {getAllOfTable, submitEntry} from '../scripts/api'
 import VariableRowContainer from '../containers/VariableRowContainer'
 import InputRangeBar from './subcomponents/AddNewEntry_InputRangeBar'
@@ -26,12 +27,13 @@ class AddEntry extends React.Component {
   submitForm (e) {
     e.preventDefault()
     if (!this.props.invalid.length) {
-      submitEntry(this.state, (err) => this.submitFeedback(err))
+      submitEntry(this.state, this.props.variableValues, (err) => this.submitFeedback(err))
     }
   }
 
   refresh () {
     this.setState(this.freshState)
+    this.props.dispatch(reset())
   }
 
   submitFeedback (err) {

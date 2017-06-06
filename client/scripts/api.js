@@ -37,7 +37,7 @@ export function addVariable (variableName, callback) {
     })
 }
 
-export function submitEntry (entryData, callback) {
+export function submitEntry (entryData, variableData, callback) {
   let body = parseEntryText(entryData.entry)
   request
     .post('/add-entry')
@@ -45,7 +45,7 @@ export function submitEntry (entryData, callback) {
       'title': body.title || '',
       'text': body.text || '',
       'mood_id': parseInt(entryData.energy + entryData.outlook),
-      'variables': entryData.variables
+      'variables': variableData
     })
     .end((err, res) => {
       if (err) { callback(err) } else { callback() }

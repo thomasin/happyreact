@@ -9,6 +9,10 @@ function variableValues (state = [], action) {
         }
         return v
       })
+    case 'RESET_VALUES':
+      return state.map((v) => {
+        return { ...v, value: '', disabled: false }
+      })
     default:
       return state
   }
