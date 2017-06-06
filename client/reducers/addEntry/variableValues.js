@@ -5,14 +5,7 @@ function variableValues (state = [], action) {
     case 'UPDATE_VALUE':
       return state.map((v) => {
         if (v.name === action.variableName) {
-          return { ...v, value: action.variableValue}
-        }
-        return v
-      })
-    case 'SET_VALID':
-      return state.map((v) => {
-        if (v.name === action.variableName) {
-          return { ...v, disabled: action.bool}
+          return { ...v, value: action.variableValue, disabled: action.bool}
         }
         return v
       })

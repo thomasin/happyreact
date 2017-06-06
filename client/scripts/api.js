@@ -19,7 +19,6 @@ export function getAllOfTable (tableName) {
         .end((err, res) => {
             if (err) reject(err)
             else {
-              console.log(res.body)
               resolve(res.body)
             }
         })

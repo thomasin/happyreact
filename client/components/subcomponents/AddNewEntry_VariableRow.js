@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-
-import { initialiseVariables, newVariableValue, setValid } from '../../actions/formValues'
+import { initialiseVariables, newVariableValue, setValid, toggleDisabledClass } from '../../actions/formValues'
 import { getVariables } from '../../actions/variables'
 import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
@@ -17,13 +16,13 @@ class VariableRow extends React.Component {
         value: '',
         disabled: false
       },
-      validated: props.validated
+      validated: ''
     }
   }
 
   submitVariable (e) {
     e.preventDefault()
-    if (validateVariableValues.call(this, this.state.newVariable) && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
+    if (validateVariableValues(this.state.newVariable).valid && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
       addVariable(this.state.newVariable.value, () => { // Add to database
         this.updateVariableList() // Display new variable in list
       })
@@ -50,18 +49,6 @@ class VariableRow extends React.Component {
       })
   }
 
-  updateNewVariable (e) {
-    this.setState({
-      newVariable: {...this.state.newVariable, value: e.target.value}
-    })
-  }
-
-  updateVariableValue (e) {
-    this.props.dispatch(newVariableValue(e.target.id, e.target.value))
-    this.validateEach()
-  }
-
-
   displayVariables (variables) {
     return variables.map((variable) => {
       let variableClasses = variable.disabled ? 'variable invalid' : 'variable'
@@ -74,17 +61,26 @@ class VariableRow extends React.Component {
             value={variable.value}
             name={variable.id}
             id={variable.name}
-            onChange={(e) => this.updateVariableValue(e)} />
+            onChange={(e) => this.validate(e.target)} />
         </div>
       )
     })
   }
 
-  validateEach () {
-    var inputs = [...this.props.variableValues, this.state.newVariable]
-    Array.from(inputs).forEach((input) => {
-      validateVariableValues.call(this, input)
-    })
+  validate (input) {
+    let validResult = validateVariableValues(input, this.props.invalid)
+    this.setV(input, !validResult.valid)
+    this.props.dispatch(toggleDisabledClass(input.id, !validResult.valid))
+    if (validResult.msg) this.setState({validated: validResult.msg })
+  }
+
+  setV (input, bool) {
+    if (input.id === 'newVariable') {
+      this.setState({ newVariable: { ...this.state.newVariable, disabled: bool, value: input.value } })
+    }
+    else {
+      this.props.dispatch(newVariableValue(input.id, input.value, bool))
+    }
   }
 
   render () {
@@ -107,7 +103,7 @@ class VariableRow extends React.Component {
               className={newVariableClasses}
               id='newVariable'
               placeholder='Add new variable'
-              onChange={(e) => this.updateNewVariable(e)}
+              onChange={(e) => this.validate(e.target)}
               value={this.state.newVariable.value} />
             <button className='button rightInput' id='submitVariable' onClick={(e) => this.submitVariable(e)}>></button>
           </div>

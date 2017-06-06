@@ -10,8 +10,8 @@ export const refreshVariables = (variables) => {
 export function getVariables () {
   return (dispatch) => {
     return getAllOfTable('variable')
-      .then((res) => {
-        return dispatch(refreshVariables(res))
+      .then((variables) => {
+        return dispatch(refreshVariables(variables))
       })
       .catch((err) => {
         throw err
