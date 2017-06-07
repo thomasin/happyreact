@@ -59,6 +59,7 @@
     "d3": "^4.9.1",
     "express": "^4.14.0",
     "jump.js": "^1.0.2",
+    "jwt-simple": "^0.5.1",
     "knex": "^0.13.0",
     "moment": "^2.18.1",
     "react-router-dom": "^4.1.1",

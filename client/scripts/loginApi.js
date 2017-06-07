@@ -9,3 +9,9 @@ export function sendLoginRequest (email, password, callback) {
     })
     .end(callback)
 }
+
+export function sendLogoutRequest (callback) {
+  request
+    .get('/logout')
+    .end(callback)
+}

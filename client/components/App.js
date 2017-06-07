@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Router>
       <div>
-        <Route path="*" component={Nav} />
+        <Route path="/" component={Nav} />
         <Route exact path="/login" component={LoginContainer} />
         <Route exact path='/' component={HomeContainer} />
         <Route exact path='/view-data' component={ViewData} />
@@ -19,6 +19,7 @@ const App = () => {
         <Route exact path='/:id' component={ViewEntry} />
       </div>
     </Router>
+
   )
 }
 

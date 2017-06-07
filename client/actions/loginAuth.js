@@ -1,4 +1,4 @@
-import { sendLoginRequest } from '../scripts/loginApi'
+import { sendLoginRequest, sendLogoutRequest } from '../scripts/loginApi'
 
 export const loginRequest = () => {
   return {
@@ -26,12 +26,43 @@ export const loginFail = (msg) => {
   }
 }
 
-export function attemptLogin (email, password) {
+export const logoutSuccess = () => {
+  return {
+    type: 'LOGOUT_SUCCESS',
+  }
+}
+
+export const clearError = () => {
+  return {
+    type: 'CLEAR_MESSAGE',
+    message: ''
+  }
+}
+
+export function attemptLogin (email, password, callback) {
   return (dispatch) => {
     sendLoginRequest(email, password, (err, res) => {
-      if (err) dispatch(loginFail("Something went wrong ):"))
+      if (err) {
+        if (err.status === 401) dispatch(loginFail("Incorrect email or password"))
+        else dispatch(loginFail("Something went wrong ): Please try again"))
+      }
       else {
-        dispatch(loginSuccess(res.body.id))
+        dispatch(loginSuccess(res.body.token))
+        localStorage.setItem("user_token", res.body.token)
+        callback()
+      }
+    })
+  }
+}
+
+export function attemptLogout (callback) {
+  return (dispatch) => {
+    sendLogoutRequest((err, res) => {
+      if (err) { console.log(err) }
+      else {
+        dispatch(logoutSuccess())
+        localStorage.removeItem("user_token")
+        callback()
       }
     })
   }

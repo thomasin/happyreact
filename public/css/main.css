@@ -24,6 +24,10 @@
   display: none;
 }
 
+.loginContainer input {
+  width: 40%;
+}
+
 /* Class add ons */
 
 .inline {

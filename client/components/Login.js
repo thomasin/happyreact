@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { attemptLogin } from '../actions/loginAuth'
+import { attemptLogin, clearError } from '../actions/loginAuth'
 
 class Login extends React.Component {
   constructor(props) {
@@ -9,15 +9,18 @@ class Login extends React.Component {
       email: '',
       password: ''
     }
+    this.props.dispatch(clearError())
   }
 
-  componentWillReceiveProps(props) {
-    if (props.login.isAuthenticated) this.props.history.push('/')
+  componentWillMount() {
+    if (this.props.login.isAuthenticated) this.props.history.push('/')
   }
 
   handleClick(e) {
     e.preventDefault()
-    this.props.dispatch(attemptLogin(this.state.email, this.state.password))
+    this.props.dispatch(attemptLogin(this.state.email, this.state.password, () => {
+      this.props.history.push('/')
+    }))
   }
 
   handleChange (e) {
@@ -28,11 +31,13 @@ class Login extends React.Component {
 
   render () {
     return (
-      <div className="container">
-          {this.props.login.message ? this.props.login.message : ''}<br />
-          <input type="email" placeholder="email" name="email" value={this.state.email} onChange={(e) => this.handleChange(e)}/>
-          <input type="password" placeholder="password" name="password" value={this.state.password} onChange={(e) => this.handleChange(e)}/>
-          <button type="submit" onClick={(e) => this.handleClick(e)}>Login</button>
+      <div className="container loginContainer">
+        <div className={`twelve columns tooltip ${this.props.login.message ? '' : 'hidden'}`} >
+          {this.props.login.message}
+        </div> <br />
+        <label htmlFor="email">Email</label><input type="email" placeholder="email" name="email" value={this.state.email} onChange={(e) => this.handleChange(e)}/><br />
+          <label htmlFor="password">Password</label><input type="password" placeholder="password" name="password" value={this.state.password} onChange={(e) => this.handleChange(e)}/><br />
+          <button type="submit" className="button-primary" onClick={(e) => this.handleClick(e)}>Login</button>
       </div>
     )
   }

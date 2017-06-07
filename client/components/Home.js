@@ -5,6 +5,7 @@ import moment from 'moment'
 import {connect} from 'react-redux'
 import sortBy from 'sort-by'
 
+import { attemptLogout } from '../actions/loginAuth'
 import { getEntries } from '../actions/entries'
 import streamGraph from '../scripts/d3/home'
 import {makeDataRequest, getAllOfTable} from '../scripts/api'
@@ -48,6 +49,7 @@ class Home extends React.Component {
   render () {
     return (
       <div>
+        <button onClick={() => this.props.dispatch(attemptLogout(() => { this.props.history.push('/login') }))}>LogOut</button>
         <div className='row' id='svgContainer'>
           <svg preserveAspectRatio='xMinYMin meet' viewBox='0 0 960 500' />
         </div>
