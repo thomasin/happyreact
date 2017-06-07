@@ -5,23 +5,24 @@ var User = require('./userDb')
 
 module.exports = function (app) {
   let connection = app.get('connection')
-  app.use(require('cookie-parser')('keyboard cat'));
   app.use(require('express-session')({
     secret: 'keyboard cat',
-    resave: true,
+    resave: false,
     saveUninitialized: false
   }));
   app.use(passport.initialize())
   app.use(passport.session())
 
   passport.serializeUser((user, done) => {
+    console.log("serializing")
     done(null, user.id)
   })
 
   passport.deserializeUser((id, done) => {
+    console.log("deserializing")
     User.findById(connection, id)
       .then((user) => {
-        done(user)
+        done(null, user)
       })
       .catch(done)
   })

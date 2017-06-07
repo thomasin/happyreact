@@ -4,20 +4,15 @@ var passport = require('passport')
 var db = require('../db')
 
 // Routes
-
-router.get('/', (req, res) => {
-  console.log(req.user)
-  res.send('home')
-})
-
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log(req.user)
+  res.redirect('/')
 })
 
 router.post('/signup', (req, res) => {})
 
 router.get('/logout', (req, res) => {
-  console.log(req.user)
+  console.log({user: req.user})
+  console.log({session: req.session})
   req.logout()
   res.redirect('/')
 })
