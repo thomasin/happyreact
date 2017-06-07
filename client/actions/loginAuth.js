@@ -1,4 +1,4 @@
-import { sendLoginRequest, sendLogoutRequest } from '../scripts/loginApi'
+import { sendLoginRequest, sendLogoutRequest, createAccountRequest } from '../scripts/loginApi'
 
 export const loginRequest = () => {
   return {
@@ -41,9 +41,26 @@ export const clearError = () => {
 
 export function attemptLogin (email, password, callback) {
   return (dispatch) => {
+    dispatch(loginRequest())
     sendLoginRequest(email, password, (err, res) => {
       if (err) {
         if (err.status === 401) dispatch(loginFail("Incorrect email or password"))
+        else dispatch(loginFail("Something went wrong ): Please try again"))
+      }
+      else {
+        dispatch(loginSuccess(res.body.token))
+        localStorage.setItem("user_token", res.body.token)
+        callback()
+      }
+    })
+  }
+}
+
+export function createAccount (email, password, callback) {
+  return (dispatch) => {
+    createAccountRequest(email, password, (err, res) => {
+      if (err) {
+        if (err.status === 409) dispatch(loginFail("That email already has an account, try logging in"))
         else dispatch(loginFail("Something went wrong ): Please try again"))
       }
       else {

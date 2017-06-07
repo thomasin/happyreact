@@ -15,3 +15,13 @@ export function sendLogoutRequest (callback) {
     .get('/logout')
     .end(callback)
 }
+
+export function createAccountRequest (email, password, callback) {
+  request
+    .post('/signup')
+    .send({
+      email,
+      password
+    })
+    .end(callback)
+}

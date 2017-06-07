@@ -28,8 +28,8 @@ function createUser (connection, email, password) {
           email: email,
           hashedPassword: hash
         })
+        .returning('hashedPassword')
     })
-    .catch((err) => err)
 }
 
 function comparePasswords (hashedPassword, password) {

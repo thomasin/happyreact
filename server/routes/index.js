@@ -3,6 +3,7 @@ var router = express.Router()
 var passport = require('passport')
 var jwt = require('jwt-simple')
 var db = require('../db')
+var User = require('../userDb')
 var secret = 'ef774e8a8f066ef7dbae8bf9388203310a4bbec5361b52291dfe1e686ed71e0d8138fe6a906e4543eac6753282638dc9f4ce9330aeea0680a0a0b7613c50a097c3b8a2500d473fbcd95ff6f0281ffd724b428bfbe35fad19d6665922d5ac5c84d0f3dbe7b3e44e6b'
 
 // Routes
@@ -11,7 +12,22 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json({ token })
 })
 
-router.post('/signup', (req, res) => {})
+router.post('/signup', (req, res) => {
+  User.createUser(req.app.get('connection'), req.body.email, req.body.password)
+    .then((id) => {
+      req.login({email: req.body.email, password: req.body.password, id: id[0]}, (err) => {
+        if (err) console.log(err)
+        else {
+          let token = jwt.encode({ user_token: id}, secret)
+          res.json({ token })
+        }
+      })
+    })
+    .catch((err) => {
+      if (err.errno === 19) res.sendStatus(409)
+      else res.sendStatus(500)
+    })
+})
 
 router.get('/logout', (req, res) => {
   req.logout()
