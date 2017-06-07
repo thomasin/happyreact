@@ -18,6 +18,12 @@ class AddEntry extends React.Component {
     this.state = this.freshState
   }
 
+  componentWillMount () {
+    if (!this.props.login.isAuthenticated) {
+      this.props.history.push('/login')
+    }
+  }
+
   updateForm (e) {
     this.setState({
       [e.target.name]: e.target.value

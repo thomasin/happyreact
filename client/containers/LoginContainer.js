@@ -1,14 +1,13 @@
 import {connect} from 'react-redux'
 
-import Home from '../components/Home'
+import Login from '../components/Login'
 
 const mapStateToProps = (state) => {
   return {
-    entries: state.entries,
     login: state.login
   }
 }
 
 export default connect(
   mapStateToProps
-)(Home)
+)(Login)

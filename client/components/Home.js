@@ -15,6 +15,12 @@ class Home extends React.Component {
     props.dispatch(getEntries())
   }
 
+  componentWillMount () {
+    if (!this.props.login.isAuthenticated) {
+      this.props.history.push('/login')
+    }
+  }
+
   componentDidMount () {
     makeDataRequest(streamGraph)
   }

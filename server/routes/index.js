@@ -5,7 +5,8 @@ var db = require('../db')
 
 // Routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.redirect('/')
+  console.log({user: req.user})
+  res.json(req.user)
 })
 
 router.post('/signup', (req, res) => {})

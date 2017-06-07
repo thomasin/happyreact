@@ -5,7 +5,8 @@ import AddEntry from '../components/AddEntry'
 const mapStateToProps = (state) => {
   return {
     invalid: state.invalid,
-    variableValues: state.variableValues
+    variableValues: state.variableValues,
+    login: state.login
   }
 }
 

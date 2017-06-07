@@ -1,4 +1,6 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import { attemptLogin } from '../actions/loginAuth'
 
 class Login extends React.Component {
   constructor(props) {
@@ -7,6 +9,15 @@ class Login extends React.Component {
       email: '',
       password: ''
     }
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.login.isAuthenticated) this.props.history.push('/')
+  }
+
+  handleClick(e) {
+    e.preventDefault()
+    this.props.dispatch(attemptLogin(this.state.email, this.state.password))
   }
 
   handleChange (e) {
@@ -18,14 +29,14 @@ class Login extends React.Component {
   render () {
     return (
       <div className="container">
-        <form method="post" action="/login">
+          {this.props.login.message ? this.props.login.message : ''}<br />
           <input type="email" placeholder="email" name="email" value={this.state.email} onChange={(e) => this.handleChange(e)}/>
           <input type="password" placeholder="password" name="password" value={this.state.password} onChange={(e) => this.handleChange(e)}/>
-          <button type="submit">Login</button>
-        </form>
+          <button type="submit" onClick={(e) => this.handleClick(e)}>Login</button>
       </div>
     )
   }
 }
 
+Login = connect()(Login)
 export default Login
