@@ -16,21 +16,14 @@ class Home extends React.Component {
     props.dispatch(getEntries())
   }
 
-  componentWillMount () {
-    if (!this.props.login.isAuthenticated) {
-      this.props.history.push('/login')
-    }
-  }
 
   componentDidMount () {
+    if (!this.props.login.isAuthenticated) {
+      this.props.history.push('/')
+    }
     makeDataRequest(streamGraph)
   }
 
-  scrollToEntries (e) {
-    jump('.entries-list', {
-      offset: -16
-    })
-  }
 
   displayEntries (entries) {
     return entries.map((entry) => {
@@ -48,17 +41,11 @@ class Home extends React.Component {
 
   render () {
     return (
-      <div>
-        <button onClick={() => this.props.dispatch(attemptLogout(() => { this.props.history.push('/login') }))}>LogOut</button>
-        <div className='row' id='svgContainer'>
+      <div className="contentContainer">
+        <div id='svgContainer'>
           <svg preserveAspectRatio='xMinYMin meet' viewBox='0 0 960 500' />
         </div>
-        <div className='container'>
-          <div className='row'>
-            <div className='twelve columns'>
-              <h2 className='downArrow'><img src='images/arrow-down.png' width='70px' onClick={(e) => this.scrollToEntries(e)} /></h2>
-            </div>
-          </div>
+        <div className='homeContainer'>
           <div className='entries-list'>
             {this.displayEntries(this.props.entries.reverse())}
           </div>

@@ -82,3 +82,11 @@ Things still do do:
 * Server side validation and sanitisation
 * Error pages and error handling
 * Handle success on entry added
+
+## 07/06
+
+Managed to get Passport auth, login/register forms set up and WORKING today!! It was an incredibly long day and progress was slow but STEADY! I never felt too blocked and I was always moving forwards so a very good amount of learning. I learnt all about local Storage and JWT!
+
+## 10/06
+
+Today I'm finishing my login/create user page. I was unsure about the best password strength system and I did some research and read a super interesting article (https://blog.codinghorror.com/password-rules-are-bullshit/) on password strength requirements. That led me to zxcvbn (https://github.com/dropbox/zxcvbn) which calculates password strength based on entropy and offers a lot of data such as suggestions for better password, length of time it would take to crack, score on a scale of 1-5. I'm really happy with this find! The biggest challenge for me is going to be designing this login page.I might look at a few sites for inspiration. I'm going to start with spotify.

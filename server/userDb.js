@@ -5,7 +5,13 @@ module.exports = {
   findById,
   findByEmail,
   createUser,
-  comparePasswords
+  comparePasswords,
+  checkEmail
+}
+
+function checkEmail (connection, email) {
+  return connection('user')
+    .where('user.email', email)
 }
 
 function findById (connection, id) {

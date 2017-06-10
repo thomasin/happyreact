@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import {createStore, applyMiddleware, compose} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { getVariables } from './actions/variables'
+import { checkSession } from './actions/loginAuth'
 import { initialiseVariables  } from './actions/formValues'
 
 import reducers from './reducers'
@@ -15,14 +16,10 @@ let store = createStore(reducers, compose(
 ))
 
 document.addEventListener('DOMContentLoaded', () => {
-  store.dispatch(getVariables())
-    .then((variables) => {
-      store.dispatch(initialiseVariables(variables))
-      ReactDOM.render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-        document.getElementById('app')
+    ReactDOM.render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+      document.getElementById('app')
       )
-    })
 })

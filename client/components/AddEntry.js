@@ -6,6 +6,8 @@ import {getAllOfTable, submitEntry} from '../scripts/api'
 import VariableRowContainer from '../containers/VariableRowContainer'
 import InputRangeBar from './subcomponents/AddNewEntry_InputRangeBar'
 import {validateVariableValues} from '../scripts/utils/validation'
+import { getVariables } from '../actions/variables'
+import { initialiseVariables } from '../actions/formValues'
 
 class AddEntry extends React.Component {
   constructor (props) {
@@ -21,6 +23,10 @@ class AddEntry extends React.Component {
   componentWillMount () {
     if (!this.props.login.isAuthenticated) {
       this.props.history.push('/login')
+    } else {
+      this.props.dispatch(getVariables((variables) => {
+        this.props.dispatch(initialiseVariables(variables))
+      }))
     }
   }
 
@@ -53,8 +59,8 @@ class AddEntry extends React.Component {
 
   render () {
     return (
-      <div className='container'>
-        <form method='post'>
+      <div className='contentContainer'>
+        <form>
 
           <InputRangeBar
             title='energy'
@@ -73,11 +79,11 @@ class AddEntry extends React.Component {
 
           <VariableRowContainer />
 
-          <div className='row'>
+          <div className=''>
             <textarea className='entryText text' name='entry' onChange={(e) => this.updateForm(e)} value={this.state.entry}>{this.state.entry}</textarea>
           </div>
 
-          <div className='row'>
+          <div className=''>
             <button
               type='submit' className={`button-primary ${this.props.invalid.length ? 'disabled' : ''}`} id='createButton' onClick={(e) => this.submitForm(e)}>Create</button>
           </div>

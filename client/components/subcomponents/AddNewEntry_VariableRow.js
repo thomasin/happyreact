@@ -30,29 +30,24 @@ class VariableRow extends React.Component {
   }
 
   updateVariableList() { // ANY WAY TO MAKE THIS MORE CONCISE ????
-    this.props.dispatch(getVariables())  // Get new variable from database
-      .then((result) => {
-        this.props.dispatch(initialiseVariables([ // Initialise new variable
-          this.props.variables.find((v) => {
-          return v.name === this.state.newVariable.value
-          })
-        ])
-      )})
-      .then(() => {
-        this.setState({ // Reset new variable input
-          newVariable: {
-            name: 'newVariable',
-            value: '',
-            disabled: false
-          }
-        })
+    this.props.dispatch(getVariables((variables) => {
+      this.props.dispatch(initialiseVariables(variables))
+    }))  // Get new variable from database
+    .then(() => {
+      this.setState({ // Reset new variable input
+        newVariable: {
+          name: 'newVariable',
+          value: '',
+          disabled: false
+        }
       })
+    })
   }
 
   displayVariables (variables) {
     return variables.map((variable) => {
       return (
-        <div className='three columns' key={variable.id}>
+        <div className='' key={variable.id}>
           <label htmlFor={variable.name}>{variable.name}</label>
           <input
             type='text'
@@ -81,7 +76,7 @@ class VariableRow extends React.Component {
 
   render () {
     return (
-      <div className='row variableRow section'>
+      <div className='variableRow section'>
 
         <div className={`twelve columns tooltip ${this.props.invalid.length ? '' : 'hidden'}`} >
           {variableValuesToolTipMessages[this.state.validated]}
@@ -89,7 +84,7 @@ class VariableRow extends React.Component {
 
         {this.displayVariables(this.props.variableValues)}
 
-        <div className='three columns'>
+        <div className=''>
           <label htmlFor='newVariable'>~</label>
           <div className='together'>
             <input

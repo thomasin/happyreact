@@ -1,31 +1,36 @@
 import React from 'react'
-// import d3 from 'd3'
+import { connect } from 'react-redux'
+import { attemptLogout } from '../../actions/loginAuth'
 import {Link} from 'react-router-dom'
 
 const Nav = props => {
-  let randomColour = d3.interpolateCool(Math.random())
-  let middleLinkStyle = {
-    backgroundColor: randomColour,
-    borderColor: randomColour
-  }
-  let middleLink = props.location.pathname === '/add-entry' ? <Link to='/' className='button'>Entry List</Link> : <Link to='/add-entry' className='button button-primary' style={middleLinkStyle}>Add entry</Link>
-let leftLink = props.location.pathname === '/view-data' ? <Link to='/' className='button'>Entry List</Link> : props.location.hash === '#/' ? <Link to='/view-data' className='button'>Look at data</Link> : <Link to='/view-data' className='button'>Look at data</Link>
   return (
-    <div className='container'>
-      <div className='row nav section'>
-        <div className='four columns'>
-          {leftLink}
-        </div>
-        <div className='four columns'>
-          {middleLink}
-        </div>
-        <div className='four columns'>
-          <button>Filter</button>
-        </div>
+    <div className='navContainer'>
+      <div className='navFixed'>
+          <div className='navRow title'>
+            <Link to='/dashboard/add-entry'>Add</Link>
+          </div>
+          <div className='navRow title'>
+            <Link to='/dashboard/'>
+              Entry List
+            </Link>
+          </div>
+          <div className='navRow title'>
+            <Link to='/dashboard/view-data'>
+              Look at data
+            </Link>
+          </div>
+          <div className='title navRow'>
+            <a href="#">Filter</a>
+          </div>
+
+          <div className="title navRow logoutButton">
+            <a href="#" onClick={() => props.dispatch(attemptLogout(() => { props.history.push('/') }))}>Logout</a>
+          </div>
       </div>
     </div>
 
   )
 }
 
-export default Nav
+export default connect()(Nav)

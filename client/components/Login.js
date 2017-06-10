@@ -1,30 +1,27 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import validator from 'validator'
 import { attemptLogin, clearError, createAccount } from '../actions/loginAuth'
+import { duplicateEmailCheck } from '../scripts/loginApi.js'
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       email: '',
-      password: '',
-      displayLogin: true
+      password: ''
     }
     this.props.dispatch(clearError())
   }
 
   componentWillMount() {
-    if (this.props.login.isAuthenticated) this.props.history.push('/')
+    if (this.props.login.isAuthenticated) this.props.history.push('/dashboard/')
   }
 
   handleClick(e) {
     e.preventDefault()
-    this.state.displayLogin
-    ? this.props.dispatch(attemptLogin(this.state.email, this.state.password, () => {
-      this.props.history.push('/')
-    }))
-    : this.props.dispatch(createAccount(this.state.email, this.state.password, () => {
-      this.props.history.push('/')
+    this.props.dispatch(attemptLogin(this.state.email, this.state.password, () => {
+      this.props.history.push('/dashboard/')
     }))
   }
 
@@ -34,24 +31,25 @@ class Login extends React.Component {
     })
   }
 
-  toggleDisplay(e) {
-    e.preventDefault()
-    this.setState({
-      displayLogin: !this.state.displayLogin
-    })
-  }
-
   render () {
-    return (
-      <div className="container loginContainer">
-        <div className={`twelve columns tooltip ${this.props.login.message ? '' : 'hidden'}`} >
-          {this.props.login.message}
-        </div> <br />
-        <label htmlFor="email">Email</label><input type="email" placeholder="email" name="email" value={this.state.email} onChange={(e) => this.handleChange(e)}/><br />
-          <label htmlFor="password">Password</label><input type="password" placeholder="password" name="password" value={this.state.password} onChange={(e) => this.handleChange(e)}/><br />
-          <button type="submit" className="button-primary" onClick={(e) => this.handleClick(e)}>{this.state.displayLogin ? 'Login' : 'Register'}</button><br />
-          <a href="#" onClick={(e) => this.toggleDisplay(e)} className="title">{this.state.displayLogin ? 'Create an Account' : 'Login to an Account'}</a>
-      </div>
+      return (
+        <div className="container signUpContainer">
+          <div className={`loginError ${this.props.login.message ? '' : 'transparent'}`}>
+            { this.props.login.message }
+          </div>
+
+          <input type="email" placeholder="Email" name="email"
+          className='email' value={this.state.email}
+          onChange={(e) => this.handleChange(e)} />
+
+        <input type="password" placeholder="Password" name="password"
+          className='passwordLogin' value={this.state.password}
+          onChange={(e) => this.handleChange(e)}/>
+
+        <button type="submit" className="button-primary loginButton"
+          onClick={(e) => this.handleClick(e)}>
+           Login</button><br />
+        </div>
     )
   }
 }

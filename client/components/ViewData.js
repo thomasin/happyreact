@@ -10,7 +10,7 @@ class ViewData extends React.Component {
   render () {
     return (
       <div className='flexWrap'>
-        <div className='container' id='legendRow'>
+        <div className='' id='legendRow'>
           <div className='row legendRow' />
         </div>
         <div className='row' id='svgContainer'>

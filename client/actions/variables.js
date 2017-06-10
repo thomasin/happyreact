@@ -7,12 +7,12 @@ export const refreshVariables = (variables) => {
   }
 }
 
-export function getVariables () {
+export function getVariables (callback) {
   return (dispatch) => {
     return getAllOfTable('variable')
       .then((variables) => {
         dispatch(refreshVariables(variables))
-        return variables
+        callback(variables)
       })
       .catch((err) => {
         throw err

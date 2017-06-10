@@ -11,9 +11,10 @@ module.exports = {
 
 // ----- Re-usable ----- //
 
-function getAll (connection, tableName) {
+function getAll (connection, tableName, userId) {
   return connection(tableName)
     .select()
+    .where('user_id', userId)
 }
 
 // ----- Create entry ----- //
@@ -29,9 +30,10 @@ function getVariablesForEntry (connection, id) {
     .where('entry_id', id)
 }
 
-function addEntry (connection, entryData) {
+function addEntry (connection, entryData, userId) {
   return connection('entry')
     .insert({
+      user_id: userId,
       title: entryData.title,
       text: entryData.text,
       mood_id: entryData.mood_id
@@ -61,9 +63,10 @@ function addVariableEntry (connection, variable, entryId) {
     })
 }
 
-function addVariable (connection, newVariable) {
+function addVariable (connection, newVariable, userId) {
   return connection('variable')
     .insert({
+      user_id: userId,
       name: newVariable,
       type: 'integer'
     })
@@ -71,19 +74,20 @@ function addVariable (connection, newVariable) {
 
 // ----- Data to pass to d3 ----- //
 
-function getMoodData (connection) {
+function getMoodData (connection, userId) {
   return connection('entry')
+    .where('entry.user_id', userId)
     .join('mood', 'mood_id', '=', 'mood.id')
     .select('entry.id', 'entry.created_at as date', 'energy', 'outlook')
 }
 
-function getAllData (connection) {
+function getAllData (connection, userId) {
   return new Promise((resolve, reject) => {
-    getMoodData(connection) // Get mood for each entry
+    getMoodData(connection, userId) // Get mood for each entry
       .then((data) => {
-        joinTableAll(connection) // List of variables that correspond to each entry
+        joinTableAll(connection, userId) // List of variables that correspond to each entry
           .then((variableData) => {
-            getAll(connection, 'variable') // List of all possible variables
+            getAll(connection, 'variable', userId) // List of all possible variables
               .then((variableArray) => {
                 pivotTable(data, variableData, variableArray)
                 let variableList = variableArray.map((variable) => variable.name)
@@ -110,8 +114,9 @@ function pivotTable (moodData, variableData, variableList) {
 
 // ----- Joining ----- //
 
-function joinTableAll (connection) {
+function joinTableAll (connection, userId) {
   return connection('entry_variable')
     .join('variable', 'entry_variable.variable_id', '=', 'variable.id')
+    .where('variable.user_id', userId)
     .select('entry_variable.entry_id as entry_id', 'variable.id as variable_id', 'entry_variable.value as value', 'variable.name as name')
 }

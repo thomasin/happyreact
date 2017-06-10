@@ -1,30 +1,43 @@
 var express = require('express')
 var router = express.Router()
 var passport = require('passport')
-var jwt = require('jwt-simple')
 var db = require('../db')
 var User = require('../userDb')
-var secret = 'ef774e8a8f066ef7dbae8bf9388203310a4bbec5361b52291dfe1e686ed71e0d8138fe6a906e4543eac6753282638dc9f4ce9330aeea0680a0a0b7613c50a097c3b8a2500d473fbcd95ff6f0281ffd724b428bfbe35fad19d6665922d5ac5c84d0f3dbe7b3e44e6b'
 
 // Routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  let token = jwt.encode({ user_token : req.user.id}, secret)
-  res.json({ token })
+  res.sendStatus(200)
+})
+
+router.get('/activeSession', (req, res) => {
+  console.log(req)
+  let activeSession = req.user ? true : false
+  console.log(req.user)
+  console.log(activeSession)
+  res.json({ activeSession })
+})
+
+router.post('/checkEmail', (req, res) => {
+  User.checkEmail(req.app.get('connection'), req.body.email)
+    .then((email) => {
+      let doesExist = email.length ? true : false
+      res.json({ doesExist })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 router.post('/signup', (req, res) => {
   User.createUser(req.app.get('connection'), req.body.email, req.body.password)
     .then((id) => {
-      req.login({email: req.body.email, password: req.body.password, id: id[0]}, (err) => {
-        if (err) console.log(err)
-        else {
-          let token = jwt.encode({ user_token: id}, secret)
-          res.json({ token })
-        }
+      req.login({email: req.body.email, password: req.body.password, id: id[0]}, (error) => {
+        if (error) console.log(error)
+        res.sendStatus(201)
       })
     })
     .catch((err) => {
-      if (err.errno === 19) res.sendStatus(409)
+      if (err.errno === 19) {res.sendStatus(409)}
       else res.sendStatus(500)
     })
 })
@@ -35,7 +48,7 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/getData', (req, res) => {
-  db.getAllData(req.app.get('connection'))
+  db.getAllData(req.app.get('connection'), req.user.id)
     .then((data) => {
       res.json(data)
       res.end()
@@ -51,7 +64,8 @@ router.get('/getAll', (req, res) => {
   if (!whiteList.includes(req.query.tableName)) {
     res.sendStatus(401)
   } else {
-    db.getAll(req.app.get('connection'), req.query.tableName)
+    console.log(req.user)
+    db.getAll(req.app.get('connection'), req.query.tableName, req.user.id)
       .then((data) => {
         res.json(data)
         res.end()
@@ -64,7 +78,7 @@ router.get('/getAll', (req, res) => {
 })
 
 router.post('/add-variable', (req, res) => {
-  db.addVariable(req.app.get('connection'), req.body.variableName)
+  db.addVariable(req.app.get('connection'), req.body.variableName, req.user.id)
     .then(() => {
       res.sendStatus(201)
     })
@@ -72,7 +86,7 @@ router.post('/add-variable', (req, res) => {
 })
 
 router.post('/add-entry', (req, res) => {
-  db.addEntry(req.app.get('connection'), req.body)
+  db.addEntry(req.app.get('connection'), req.body, req.user.id)
     .then((entryId) => {
       let promises = []
       req.body.variables.forEach((variable) => {

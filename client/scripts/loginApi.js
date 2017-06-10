@@ -10,6 +10,12 @@ export function sendLoginRequest (email, password, callback) {
     .end(callback)
 }
 
+export function checkLoginSession (callback) {
+  request
+    .get('/activeSession')
+    .end(callback)
+}
+
 export function sendLogoutRequest (callback) {
   request
     .get('/logout')
@@ -22,6 +28,15 @@ export function createAccountRequest (email, password, callback) {
     .send({
       email,
       password
+    })
+    .end(callback)
+}
+
+export function duplicateEmailCheck (email, callback) {
+  request
+    .post('/checkEmail')
+    .send({
+      email
     })
     .end(callback)
 }

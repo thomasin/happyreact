@@ -1,3 +1,278 @@
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+#app, .componentContainer {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.componentContainer {
+  display: flex;
+}
+
+.transparent {
+  opacity: 0;
+}
+
+/* ----- SignUp ----- */
+
+.signUpContainer {
+ margin: auto;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+}
+
+.signUpContainer input {
+  height: 56px;
+  padding: 16px 8px;
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  line-height: 24px;
+}
+
+
+.loginError {
+  color: #DD513A;
+  width: 70%;
+  border-radius: 4px;
+  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.loginButton {
+  display: block;
+}
+
+.pwContainer {
+  display: block;
+  width: 100%;
+}
+
+.signUpContainer .password {
+  display:inline;
+  width: 55%;
+  margin-bottom: 0;
+  border-right: none;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.signUpContainer .passwordLogin {
+  width: 70%;
+}
+
+.signUpContainer .password:focus {
+  border-right: none;
+  border-bottom: none;
+  text-align: left;
+}
+
+.signUpContainer .password:focus ~ .passwordTips {
+  border-color: #1EAEDB;
+}
+
+.signUpContainer button.passwordTips {
+  display: inline;
+  width: 15%;
+  height: 56px;
+  font-size: 24px;
+  border-left: none;
+  padding: 16px 8px;
+  border-bottom: none;
+  border-color: #ccc;
+  margin-bottom: 0;
+  line-height: 24px;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.passwordTips:hover {
+  border-color: #ccc;
+  color: #000;
+}
+
+.passwordTipsPopup {
+  position: absolute;
+  margin: auto;
+  box-sizing: border-box;
+  padding: 16px;
+  z-index: 999;
+  opacity: 0.9;
+  transition: 0.3s all ease-in;
+  width: 70%;
+  top: 0;
+  left: 15%;
+  background-color: #33C3F0;
+  border-radius: 4px;
+  border: 1px solid #1EAEDB;
+  box-shadow: inset 0 1px 0 #70d5f4;
+}
+
+.passwordTipsPopup a {
+  color: #fff;
+}
+
+.hiddenpop {
+  top: -560px;
+  opacity: 0;
+}
+
+.passwordTipsPopup button.closePopUpButton {
+  padding:0px 16px 0 0;
+  background-color: none;
+  position: absolute;
+  border-top-left-radius: 0;
+  right: 0;
+  top: 0;
+  border: none;
+  box-shadow: inset 0 1px 0 #70d5f4;
+}
+
+.passwordTipsPopup button.button-primary.closePopUpButton:hover {
+  color: #000;
+  background-color: #33C3F0;
+  border: none;
+}
+
+.signUpContainer .email {
+    width: 70%;
+}
+
+
+input.password {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+.passwordStrengthContainer {
+  width: 70%;
+  display: flex;
+  margin: 0 auto 8px auto;
+  height: 4px;
+  background-color: #eee;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.passwordStrengthBar {
+  height: 100%;
+  width: 0%;
+  transition: 0.2s all linear;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.strength0 {
+  width: 20%;
+}
+.strength1 {
+  width: 40%;
+}
+.strength2 {
+  width: 60%;
+}
+.strength3 {
+  width: 80%;
+}
+.strength4 {
+  width: 100%;
+}
+
+.signUpError {
+  color: #DD513A;
+  margin-bottom: 16px;
+}
+
+.signUpContainer .password.invalid ~ .passwordTips {
+  border-color: #DD513A;
+}
+
+/* ----- Nav ----- */
+
+.navContainer {
+  width: 25%;
+  height: 100vh;
+
+}
+
+.navFixed {
+  position: fixed;
+  background-color: #33C3F0;
+  border-right: 1px solid #1EAEDB;
+  box-shadow: inset -1px 0 0 #70d5f4;
+  width: 25%;
+  box-sizing: border-box;
+  padding: 8px 0 8px 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.navContainer a {
+  text-decoration: none;
+  cursor: pointer;
+  color: #000;
+  flex-grow: 0;
+}
+
+.navContainer a:hover {
+  color: #70d5f4;
+}
+
+.navRow {
+  padding: 0 8px 8px 8px;
+}
+
+div.logoutButton {
+  display: flex;
+  align-self: end;
+  margin-top: auto;
+  text-align: center;
+}
+
+/* ----- Content ----- */
+
+.contentContainer {
+  width: 100%;
+  flex: 1;
+}
+
+/* ----- Home ----- */
+
+.homeContainer {
+  padding: 16px;
+}
+
+/* ----- Add Entry ----- */
+
+.inputRow {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.twenty {
+  width: 20%;
+  flex-shrink: 0;
+  flex-basis: 20%;
+}
+
+.sixty {
+  width: 60%;
+  flex-shrink: 0;
+  flex-basis: 60%;
+}
+
 /* ----- Global Styles ----- */
 .line {
   fill: none;
@@ -19,6 +294,7 @@
 .hidden {
   opacity: 0;
 }
+
 
 .displayNone {
   display: none;
@@ -91,11 +367,11 @@ button.success:focus {
 }
 
 input.invalid {
-  border-color: red;
+  border-color: #DD513A;
 }
 
 input.invalid:focus {
-  border-color: red;
+  border-color: #DD513A;
 }
 
 #createButton {
