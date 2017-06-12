@@ -65,6 +65,7 @@
     "sqlite3": "^3.1.8",
     "superagent": "^3.5.2",
     "trim": "0.0.1",
-    "validator": "^7.0.0"
+    "validator": "^7.0.0",
+    "zxcvbn": "^4.4.2"
   }
 }

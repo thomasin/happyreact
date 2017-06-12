@@ -15,9 +15,9 @@ class SignUp extends React.Component {
       password: '',
       errorMessageEmail: '',
       passwordStrength: undefined,
-      passwordError: '',
+      passwordError: '~',
       popup: false,
-      canSubmit: true
+      canSubmit: false
     }
   }
 
@@ -44,14 +44,10 @@ class SignUp extends React.Component {
 
   handleClick(e) {
     e.preventDefault()
-    if (this.state.password != '') {
+    if (this.state.canSubmit && this.state.email !== '' && this.state.password !== '') {
       this.props.dispatch(createAccount(this.state.email, this.state.password, () => {
         this.props.history.push('/dashboard/')
       }))
-    } else {
-      this.setState({
-        passwordError: "Please enter a password"
-      })
     }
   }
 
@@ -61,11 +57,6 @@ class SignUp extends React.Component {
     })
     if (e.target.name == "password")
      this.checkPasswordStrength(e)
-     if (this.state.passwordError.length && e.target.value !== '') {
-       this.setState({
-         passwordError: ''
-       })
-     }
   }
 
   validateEmail(e) {
@@ -94,14 +85,11 @@ class SignUp extends React.Component {
   }
 
   checkPasswordStrength (e) {
-    if (e.target.value === '') {
-      this.setState({
-        passwordError: 'Please enter a password'
-      })
-    }
-    let passwordObject = zxcvbn(this.state.password)
+    let passwordFeedback = validation.isValidPassword_signUp(e.target.value)
     this.setState({
-      passwordStrength: passwordObject.score
+      passwordStrength: passwordFeedback.strength,
+      passwordError: passwordFeedback.message,
+      canSubmit: passwordFeedback.strength ? true : false
     })
   }
 
@@ -150,7 +138,7 @@ class SignUp extends React.Component {
 
       <div className="pwContainer">
         <input type="password" placeholder="Password" name="password"
-          className={`password ${ this.state.passwordError.length ? 'invalid' : ''}`}
+          className={`password ${ this.state.passwordError !== '~' ? 'invalid' : ''}`}
           value={this.state.password}
           onChange={(e) => this.handleChange(e)}
           onBlur={(e) => this.checkPasswordStrength(e)}
@@ -164,7 +152,7 @@ class SignUp extends React.Component {
           {this.passwordStrengthBar(this.state.passwordStrength)}
       </div>
 
-      <div className="signUpError pw">{ this.state.passwordError }</div>
+      <div className={`signUpError pw ${this.state.passwordError !== '~' ? '' : 'transparent'}`}>{ this.state.passwordError }</div>
 
         <button type="submit" className={`button-primary ${this.state.canSubmit ? '' : 'disabled'}`}
         onClick={(e) => this.handleClick(e)}>

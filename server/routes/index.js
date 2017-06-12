@@ -24,7 +24,7 @@ router.post('/checkEmail', (req, checkEmailRes) => {
 
 router.post('/signup', (req, res) => {
   validation.isValidEmail_signUp(req.body.email, (checkedEmail) => {
-    if (checkedEmail.valid) {
+    if (checkedEmail.valid && validation.isValidPassword_signUp(req.body.password).valid) {
       User.createUser(req.app.get('connection'), req.body.email, req.body.password)
         .then((id) => {
           req.login({email: req.body.email, password: req.body.password, id: id[0]}, (error) => {
@@ -44,10 +44,17 @@ router.post('/signup', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.logout()
-  res.sendStatus(200)
+  res.redirect('/')
 })
 
-router.get('/getData', (req, res) => {
+function checkLoggedIn (req, res, next) {
+  if (req.user) {
+    return next()
+  }
+  res.redirect('/')
+}
+
+router.get('/getData', checkLoggedIn, (req, res) => {
   db.getAllData(req.app.get('connection'), req.user.id)
     .then((data) => {
       res.json(data)
@@ -59,7 +66,7 @@ router.get('/getData', (req, res) => {
     })
 })
 
-router.get('/getAll', (req, res) => {
+router.get('/getAll', checkLoggedIn, (req, res) => {
   let whiteList = ['variable', 'entry']
   if (!whiteList.includes(req.query.tableName)) {
     res.sendStatus(401)
@@ -77,7 +84,7 @@ router.get('/getAll', (req, res) => {
   }
 })
 
-router.post('/add-variable', (req, res) => {
+router.post('/add-variable', checkLoggedIn, (req, res) => {
   db.addVariable(req.app.get('connection'), req.body.variableName, req.user.id)
     .then(() => {
       res.sendStatus(201)
@@ -85,7 +92,7 @@ router.post('/add-variable', (req, res) => {
     .catch(console.log)
 })
 
-router.post('/add-entry', (req, res) => {
+router.post('/add-entry', checkLoggedIn, (req, res) => {
   db.addEntry(req.app.get('connection'), req.body, req.user.id)
     .then((entryId) => {
       let promises = []

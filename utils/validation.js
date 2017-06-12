@@ -1,4 +1,5 @@
 const validator = require('validator')
+const zxcvbn = require('zxcvbn')
 const { duplicateEmailCheck } = require('../client/scripts/loginApi')
 
 function isValidEmail_signUp (email, callback) {
@@ -19,4 +20,31 @@ function isValidEmail_signUp (email, callback) {
   }
 }
 
-module.exports = {isValidEmail_signUp}
+function isValidPassword_signUp (password) {
+  if (password === '') {
+    return {
+      valid: false,
+      strength: undefined,
+      message: 'Please enter a password'
+    }
+  }
+
+  let passwordObject = zxcvbn(password)
+  if (passwordObject.score === 0) {
+    return {
+      valid: false,
+      strength: passwordObject.score,
+      message: passwordObject.feedback.warning || "Please make your password a little bit more complex"
+    }
+  }
+  return {
+    valid: true,
+    strength: passwordObject.score,
+    message: '~'
+  }
+}
+
+module.exports = {
+  isValidEmail_signUp,
+  isValidPassword_signUp
+}

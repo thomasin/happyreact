@@ -17,6 +17,7 @@ body {
 
 .transparent {
   opacity: 0;
+  transition: 0.1s linear all;
 }
 
 /* ----- SignUp ----- */
@@ -195,6 +196,10 @@ input.password {
 
 .signUpContainer .password.invalid ~ .passwordTips {
   border-color: #DD513A;
+}
+
+.pw {
+  transition: 0.2s linear all;
 }
 
 /* ----- Nav ----- */

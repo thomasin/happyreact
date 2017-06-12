@@ -3,11 +3,7 @@ import request from 'superagent'
 export function makeDataRequest (callback) {
   request
     .get('/getData')
-    .end((err, res) => {
-      if (err) { console.log(err) } else {
-        callback(res.body, err)
-      }
-    })
+    .end(callback)
 }
 
 export function getAllOfTable (tableName) {
@@ -17,8 +13,7 @@ export function getAllOfTable (tableName) {
       request
         .get(`/getAll?tableName=${tableName}`)
         .end((err, res) => {
-            if (err) reject(err)
-            else {
+            if (!err && res.body) {
               resolve(res.body)
             }
         })

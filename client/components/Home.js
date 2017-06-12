@@ -21,7 +21,10 @@ class Home extends React.Component {
     if (!this.props.login.isAuthenticated) {
       this.props.history.push('/')
     }
-    makeDataRequest(streamGraph)
+    makeDataRequest((err, res) => {
+      console.log({err, res})
+      if (res.body) streamGraph(res.body)
+    })
   }
 
 
