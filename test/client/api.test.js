@@ -9,7 +9,7 @@ test.cb('get Data connecting to server', t => {
     .get('/getData')
     .reply(200, expected)
 
-  api.makeDataRequest((actual, err) => {
+  api.makeDataRequest((err, actual) => {
     t.is(actual.body.test, expected.test)
     t.is(err, null)
     scope.done()
@@ -24,10 +24,10 @@ test.cb('get All Of Table connecting to server', t => {
     .query({tableName: 'entry'})
     .reply(200, expected)
 
-  api.getAllOfTable('entry', (actual, err) => {
-    t.is(actual.test, expected.test)
-    t.is(err, null)
-    scope.done()
-    t.end()
-  })
+  api.getAllOfTable('entry')
+    .then((actual) => {
+      t.is(actual.test, expected.test)
+      scope.done()
+      t.end()
+    })
 })

@@ -102,3 +102,67 @@ test.cb('POST /add-entry adds a entry', t => {
       t.end()
     })
 })
+
+test.cb('POST /checkEmail returns true if email already exists', t => {
+  request(t.context.app)
+    .post('/checkEmail')
+    .send({ email: 'testing@test.com' })
+    .expect(200)
+    .end((err, res) => {
+      t.is(res.body.doesExist, true)
+      t.end()
+    })
+})
+
+test.cb('POST /checkEmail returns false if email doesnt exist', t => {
+  request(t.context.app)
+    .post('/checkEmail')
+    .send({ email: 'idontexist@test.com' })
+    .expect(200)
+    .end((err, res) => {
+      t.is(res.body.doesExist, false)
+      t.end()
+    })
+})
+
+test.cb('POST /signup returns error if user already exists', t => {
+  request(t.context.app)
+    .post('/signup')
+    .send({
+      email: 'testing@test.com',
+      password: 'happyhippo'
+     })
+    .expect(409)
+    .end((err, res) => {
+      t.is(err.status, 409)
+      t.end()
+    })
+})
+
+test.cb('POST /signup works correctly', t => {
+  request(t.context.app)
+    .post('/signup')
+    .send({
+      email: 'idontexist@test.com',
+      password: 'happyhippo'
+    })
+    .expect(201)
+    .end((err, res) => {
+      t.is(res.status, 201)
+      t.end()
+    })
+})
+
+test.cb('POST /signup returns error if email is not valid', t => {
+  request(t.context.app)
+    .post('/signup')
+    .send({
+      email: 'notvalidemail',
+      password: 'happyhippo'
+    })
+    .expect(400)
+    .end((err, res) => {
+      t.is(err.status, 400)
+      t.end()
+    })
+})

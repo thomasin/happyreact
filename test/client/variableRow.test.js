@@ -1,14 +1,16 @@
 import test from 'ava'
 import React from 'react'
 import {mount} from 'enzyme'
+import {Provider} from 'react-redux'
 
 import './setup-dom'
 import AddEntry from '../../client/components/AddEntry'
+import store from '../../client/store'
 
 AddEntry.prototype.componentDidMount = () => {}
 
 test('Variable row loads all variables + new variable', (t) => {
-  const wrapper = mount(<AddEntry />)
+  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
   wrapper.setState({
     variables: [
       {id: 1, name: 'Cats', value: ''},
@@ -21,7 +23,7 @@ test('Variable row loads all variables + new variable', (t) => {
 })
 
 test('Variable row loads names of variables', (t) => {
-  const wrapper = mount(<AddEntry />)
+  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
   wrapper.setState({
     variables: [
       {id: 1, name: 'Cats', value: ''},
@@ -34,7 +36,7 @@ test('Variable row loads names of variables', (t) => {
 })
 
 test('An invalid variable value causes a response', (t) => {
-  const wrapper = mount(<AddEntry />)
+  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
   wrapper.setState({
     variables: [
       {id: 1, name: 'Cats', value: 'd', disabled: true},
@@ -47,7 +49,7 @@ test('An invalid variable value causes a response', (t) => {
 })
 
 test('An invalid variable value causes create button to disable', (t) => {
-  const wrapper = mount(<AddEntry />)
+  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
   wrapper.setState({
     variables: [
       {id: 1, name: 'Cats', value: 'd', disabled: true},

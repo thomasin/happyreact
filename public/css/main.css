@@ -251,6 +251,8 @@ div.logoutButton {
 .contentContainer {
   width: 100%;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ----- Home ----- */
@@ -263,7 +265,9 @@ div.logoutButton {
 
 .addEntryContainer {
   max-width: 950px;
+  width: 90%;
   padding: 32px;
+  margin: 0 auto 0 auto;
 }
 
 .inputRow {

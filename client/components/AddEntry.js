@@ -21,13 +21,13 @@ class AddEntry extends React.Component {
   }
 
   componentWillMount () {
-    if (!this.props.login.isAuthenticated) {
-      this.props.history.push('/')
-    } else {
+    // if (!this.props.login.isAuthenticated) {
+    //   this.props.history.push('/')
+    // } else {
       this.props.dispatch(getVariables((variables) => {
         this.props.dispatch(initialiseVariables(variables))
       }))
-    }
+    // }
   }
 
   updateForm (e) {
@@ -59,37 +59,38 @@ class AddEntry extends React.Component {
 
   render () {
     return (
-      <div className='contentContainer addEntryContainer'>
-        <form>
+      <div className='contentContainer'>
+        <div className='addEntryContainer'>
+          <form>
 
-          <InputRangeBar
-            title='energy'
-            leftInput='Low Energy'
-            rightInput='High Energy'
-            value={this.state.energy}
-            updateForm={this.updateForm.bind(this)}
-            />
+            <InputRangeBar
+              title='energy'
+              leftInput='Low Energy'
+              rightInput='High Energy'
+              value={this.state.energy}
+              updateForm={this.updateForm.bind(this)}
+              />
 
-          <InputRangeBar
-            title='outlook'
-            leftInput='Negative'
-            rightInput='Positive'
-            value={this.state.outlook}
-            updateForm={this.updateForm.bind(this)} />
+            <InputRangeBar
+              title='outlook'
+              leftInput='Negative'
+              rightInput='Positive'
+              value={this.state.outlook}
+              updateForm={this.updateForm.bind(this)} />
 
-          <VariableRowContainer />
+            <VariableRowContainer />
 
-          <div className=''>
-            <textarea className='entryText text' name='entry' onChange={(e) => this.updateForm(e)} value={this.state.entry}>{this.state.entry}</textarea>
-          </div>
+            <div className=''>
+              <textarea className='entryText text' name='entry' onChange={(e) => this.updateForm(e)} value={this.state.entry}>{this.state.entry}</textarea>
+            </div>
 
-          <div className=''>
-            <button
-              type='submit' className={`button-primary ${this.props.invalid.length ? 'disabled' : ''}`} id='createButton' onClick={(e) => this.submitForm(e)}>Create</button>
-          </div>
-        </form>
+            <div className=''>
+              <button
+                type='submit' className={`button-primary ${this.props.invalid.length ? 'disabled' : ''}`} id='createButton' onClick={(e) => this.submitForm(e)}>Create</button>
+            </div>
+          </form>
+        </div>
       </div>
-
     )
   }
 }

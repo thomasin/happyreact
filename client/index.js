@@ -9,11 +9,7 @@ import { initialiseVariables  } from './actions/formValues'
 
 import reducers from './reducers'
 import App from './components/App'
-
-let store = createStore(reducers, compose(
-  applyMiddleware(thunkMiddleware),
-  window.devToolsExtension ? window.devToolsExtension() : f => f
-))
+import store from './store'
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
