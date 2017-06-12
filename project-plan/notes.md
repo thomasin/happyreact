@@ -97,8 +97,8 @@ Finished my login/sign up pages on the weekend. Got a beautiful little password 
 
 * Best ways of doing email verification and forgot password links.
 * Debug all those annoying 'Cannot update state while transitioning errors'
-* Why does my password input sometimes change to text???
+* Why does my password input sometimes change to text??? ✓
 * Would love a second opinion on security - really don't want that to be lacking
 * Best way of doing server side validation ✓
-* 'Cannot read property id of undefined' when logging out
-* Superagent internal server error when logging out
+* 'Cannot read property id of undefined' when logging out ✓
+* Superagent internal server error when logging out ✓

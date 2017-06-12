@@ -7,14 +7,13 @@ const validation = require('../../utils/validation')
 
 // Routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  res.sendStatus(200)
+  res.json({verified: req.user.verified})
 })
 
 router.post('/checkEmail', (req, checkEmailRes) => {
   User.checkEmail(req.app.get('connection'), req.body.email)
     .then((email) => {
       let doesExist = email.length ? true : false
-      console.log(doesExist)
       checkEmailRes.json({ doesExist })
     })
     .catch((err) => {
@@ -71,7 +70,6 @@ router.get('/getAll', checkLoggedIn, (req, res) => {
   if (!whiteList.includes(req.query.tableName)) {
     res.sendStatus(401)
   } else {
-    console.log(req.user)
     db.getAll(req.app.get('connection'), req.query.tableName, req.user.id)
       .then((data) => {
         res.json(data)

@@ -54,8 +54,11 @@ export function attemptLogin (email, password, callback) {
         else dispatch(loginFail("Something went wrong ): Please try again"))
       }
       else {
-        dispatch(loginSuccess())
-        callback()
+        if (!res.body.verified) dispatch(loginFail("Please verify your account"))
+        else {
+          dispatch(loginSuccess())
+          callback()  
+        }
       }
     })
   }

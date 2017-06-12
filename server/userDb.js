@@ -32,7 +32,8 @@ function createUser (connection, email, password) {
       return connection('user')
         .insert({
           email: email,
-          hashedPassword: hash
+          hashedPassword: hash,
+          verified: false
         })
         .returning('hashedPassword')
     })
