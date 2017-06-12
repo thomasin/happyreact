@@ -6,7 +6,8 @@ module.exports = {
   addEntry,
   addVariableEntry,
   getEntry,
-  getVariablesForEntry
+  getVariablesForEntry,
+  getTable
 }
 
 // ----- Re-usable ----- //
@@ -15,6 +16,10 @@ function getAll (connection, tableName, userId) {
   return connection(tableName)
     .select()
     .where('user_id', userId)
+}
+
+function getTable (connection, tableName) {
+  return connection(tableName)
 }
 
 // ----- Create entry ----- //

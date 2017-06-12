@@ -21,7 +21,7 @@ test('findByEmail returns correct user', t => {
 })
 
 test('createUser creates new user', t => {
-  return db.createUser(t.context.connection, "email2@email.com", 'cats')
+  return db.createUser(t.context.connection, 'email2@email.com', 'cats')
     .then(() => {
       return db.findByEmail(t.context.connection, 'email2@email.com')
     })
@@ -35,7 +35,7 @@ test('createUser creates new user', t => {
 })
 
 test('createUser throws error when adding same email', t => {
-  return db.createUser(t.context.connection, "email@email.com", 'cats')
+  return db.createUser(t.context.connection, 'email@email.com', 'cats')
     .then()
     .catch((err) => {
       t.is(err.errno, 19)
@@ -43,17 +43,17 @@ test('createUser throws error when adding same email', t => {
 })
 
 test('checkEmail returns an array of length 0 if email doesnt exist', t => {
-  return db.checkEmail(t.context.connection, "idontexist@test.com")
+  return db.checkEmail(t.context.connection, 'idontexist@test.com')
     .then((res) => {
-        t.is(res.length, 0)
+      t.is(res.length, 0)
     })
 })
 
 test('checkEmail returns the email if it exists', t => {
-  return db.checkEmail(t.context.connection, "testing@test.com")
+  return db.checkEmail(t.context.connection, 'testing@test.com')
     .then((res) => {
-        t.is(res.length, 1)
-        t.is(res[0].email, 'testing@test.com')
+      t.is(res.length, 1)
+      t.is(res[0].email, 'testing@test.com')
     })
 })
 

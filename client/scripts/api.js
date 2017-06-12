@@ -13,9 +13,9 @@ export function getAllOfTable (tableName) {
       request
         .get(`/getAll?tableName=${tableName}`)
         .end((err, res) => {
-            if (!err && res.body) {
-              resolve(res.body)
-            }
+          if (!err && res.body) {
+            resolve(res.body)
+          }
         })
     } else {
       console.log("don't hack me")

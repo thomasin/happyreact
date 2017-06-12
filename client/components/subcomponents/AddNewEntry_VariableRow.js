@@ -6,7 +6,6 @@ import {addVariable} from '../../scripts/api'
 import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
 import trim from 'trim'
 
-
 class VariableRow extends React.Component {
   constructor (props) {
     super(props)
@@ -29,7 +28,7 @@ class VariableRow extends React.Component {
     }
   }
 
-  updateVariableList() { // ANY WAY TO MAKE THIS MORE CONCISE ????
+  updateVariableList () { // ANY WAY TO MAKE THIS MORE CONCISE ????
     this.props.dispatch(getVariables((variables) => {
       this.props.dispatch(initialiseVariables(variables))
     }))  // Get new variable from database

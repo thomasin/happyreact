@@ -88,7 +88,7 @@ test('addVariableEntry adds correctly', t => {
   let entryId = 1
   return db.addVariableEntry(t.context.connection, variable, entryId)
     .then((id) => {
-      return db.getAll(t.context.connection, 'entry_variable')
+      return db.getTable(t.context.connection, 'entry_variable')
     })
     .then((result) => {
       t.is(result[result.length - 1].value, parseInt(variable.value))

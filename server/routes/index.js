@@ -8,14 +8,14 @@ const validation = require('../../utils/validation')
 
 // Fake user (Dev ONLY)
 
-function fakeUserMiddleware (req,res,next){
-  if( req && req.session && req.session.user_tmp ){
+function fakeUserMiddleware (req, res, next) {
+  if (req && req.session && req.session.user_tmp) {
     req.user = req.session.user_tmp
   }
-  if( next ){ next() }
+  if (next) { next() }
 }
 
-function fakeUserRoute(req,res) {
+function fakeUserRoute (req, res) {
   let fakeUser = {
     email: 'thomasinthomasin@gmail.com',
     hashedPassword: bcrypt.hashSync('vanilla', 10),
@@ -27,7 +27,7 @@ function fakeUserRoute(req,res) {
   res.redirect('/')
 }
 
-if( process.env.NODE_ENV==='DEV' || process.env.NODE_ENV==='test' ){
+if (process.env.NODE_ENV === 'DEV' || process.env.NODE_ENV === 'test') {
   router.use(fakeUserMiddleware)
   router.get('/auth/fake', fakeUserRoute)
 }
@@ -40,7 +40,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 router.post('/checkEmail', (req, res) => {
   User.checkEmail(req.app.get('connection'), req.body.email)
     .then((email) => {
-      let doesExist = email.length ? true : false
+      let doesExist = !!email.length
       res.json({ doesExist })
     })
     .catch((err) => {
@@ -59,8 +59,7 @@ router.post('/signup', (req, res) => {
           })
         })
         .catch((err) => {
-          if (err.errno === 19) {res.sendStatus(409)}
-          else res.sendStatus(500)
+          if (err.errno === 19) { res.sendStatus(409) } else res.sendStatus(500)
         })
     } else {
       res.sendStatus(400)
@@ -68,7 +67,7 @@ router.post('/signup', (req, res) => {
   })
 })
 
-router.get('/logout', (req, res) => {
+router.get('/logout', checkLoggedIn, (req, res) => {
   req.logout()
   res.redirect('/')
 })

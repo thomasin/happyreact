@@ -16,10 +16,10 @@ export const initialiseVariables = (variables) => {
 
 export const newVariableValue = (variableName, variableValue, bool) => {
   return {
-        type: 'UPDATE_VALUE',
-        variableName,
-        variableValue,
-        bool
+    type: 'UPDATE_VALUE',
+    variableName,
+    variableValue,
+    bool
   }
 }
 

@@ -1,6 +1,5 @@
 var bcrypt = require('bcrypt')
 
-
 module.exports = {
   findById,
   findByEmail,
@@ -40,6 +39,6 @@ function createUser (connection, email, password) {
 }
 
 function comparePasswords (hashedPassword, password) {
-    return bcrypt.compare(password, hashedPassword)
+  return bcrypt.compare(password, hashedPassword)
       .then((res) => res)
 }

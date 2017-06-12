@@ -6,6 +6,9 @@ import app from '../../server/server'
 let configureDatabase = require('./helpers/database-config')
 configureDatabase(test, app)
 
+/* ----- Authorised ----- */
+
+/*
 test.serial.cb('POST /add-variable adds a variable', t => {
   request(t.context.app)
     .post('/add-variable')
@@ -102,6 +105,7 @@ test.cb('POST /add-entry adds a entry', t => {
       t.end()
     })
 })
+*/
 
 test.cb('POST /checkEmail returns true if email already exists', t => {
   request(t.context.app)
@@ -131,10 +135,10 @@ test.cb('POST /signup returns error if user already exists', t => {
     .send({
       email: 'testing@test.com',
       password: 'happyhippo'
-     })
+    })
     .expect(409)
     .end((err, res) => {
-      t.is(err.status, 409)
+      t.is(res.statusCode, 409)
       t.end()
     })
 })
@@ -148,7 +152,7 @@ test.cb('POST /signup works correctly', t => {
     })
     .expect(201)
     .end((err, res) => {
-      t.is(res.status, 201)
+      t.is(res.statusCode, 201)
       t.end()
     })
 })
@@ -162,7 +166,91 @@ test.cb('POST /signup returns error if email is not valid', t => {
     })
     .expect(400)
     .end((err, res) => {
-      t.is(err.status, 400)
+      t.is(res.statusCode, 400)
+      t.end()
+    })
+})
+
+test.cb('POST /signup returns error if password is not valid', t => {
+  request(t.context.app)
+    .post('/signup')
+    .send({
+      email: 'idontexist@test.com',
+      password: 'password'
+    })
+    .expect(400)
+    .end((err, res) => {
+      t.is(res.statusCode, 400)
+      t.end()
+    })
+})
+
+/* ----- Unauthorised ----- */
+
+test.serial.cb('POST /add-variable redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .post('/add-variable')
+    .send({
+      variableName: 'Im a variable'
+    })
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.header['location'], '/')
+      t.is(res.statusCode, 302)
+      t.end()
+    })
+})
+
+test.cb('GET /getData redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .get('/getData')
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.statusCode, 302)
+      t.end()
+    })
+})
+
+test.cb('GET /getAll of entries redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .get('/getAll')
+    .query({ tableName: 'entry' })
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.header['location'], '/')
+      t.is(res.statusCode, 302)
+      t.end()
+    })
+})
+
+test.cb('GET /getAll of variables redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .get('/getAll')
+    .query({ tableName: 'variable' })
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.header['location'], '/')
+      t.is(res.statusCode, 302)
+      t.end()
+    })
+})
+
+test.cb('POST /add-entry redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .post('/add-entry')
+    .send({
+      title: 'Im a entry',
+      text: 'Test',
+      mood_id: 55,
+      variables: [{
+        id: 2,
+        value: '10'
+      }]
+    })
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.header['location'], '/')
+      t.is(res.statusCode, 302)
       t.end()
     })
 })

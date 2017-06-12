@@ -2,14 +2,13 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy
 var User = require('./userDb')
 
-
 module.exports = function (app) {
   let connection = app.get('connection')
   app.use(require('express-session')({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
-  }));
+  }))
   app.use(passport.initialize())
   app.use(passport.session())
 
@@ -26,8 +25,8 @@ module.exports = function (app) {
   })
 
   passport.use(new LocalStrategy({
-      usernameField: 'email'
-    },
+    usernameField: 'email'
+  },
     (email, password, done) => {
       User.findByEmail(connection, email)
         .then((user) => {

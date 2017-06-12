@@ -34,7 +34,7 @@ export const emailFail = (msg) => {
 
 export const logoutSuccess = () => {
   return {
-    type: 'LOGOUT_SUCCESS',
+    type: 'LOGOUT_SUCCESS'
   }
 }
 
@@ -50,14 +50,13 @@ export function attemptLogin (email, password, callback) {
     dispatch(loginRequest())
     sendLoginRequest(email, password, (err, res) => {
       if (err) {
-        if (err.status === 401) dispatch(loginFail("Incorrect email or password"))
-        else dispatch(loginFail("Something went wrong ): Please try again"))
-      }
-      else {
-        if (!res.body.verified) dispatch(loginFail("Please verify your account"))
+        if (err.status === 401) dispatch(loginFail('Incorrect email or password'))
+        else dispatch(loginFail('Something went wrong ): Please try again'))
+      } else {
+        if (!res.body.verified) dispatch(loginFail('Please verify your account'))
         else {
           dispatch(loginSuccess())
-          callback()  
+          callback()
         }
       }
     })
@@ -68,10 +67,9 @@ export function createAccount (email, password, callback) {
   return (dispatch) => {
     createAccountRequest(email, password, (err, res) => {
       if (err) {
-        if (err.status === 409) dispatch(emailFail("That email already has an account, try logging in"))
-        else dispatch(emailFail("Something went wrong ): Please try again"))
-      }
-      else {
+        if (err.status === 409) dispatch(emailFail('That email already has an account, try logging in'))
+        else dispatch(emailFail('Something went wrong ): Please try again'))
+      } else {
         dispatch(loginSuccess())
         callback()
       }
@@ -82,9 +80,9 @@ export function createAccount (email, password, callback) {
 export function attemptLogout (callback) {
   return (dispatch) => {
     sendLogoutRequest((err, res) => {
-        dispatch(logoutSuccess())
-        callback()
-      })
+      dispatch(logoutSuccess())
+      callback()
+    })
   }
 }
 

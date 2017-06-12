@@ -24,9 +24,9 @@ class AddEntry extends React.Component {
     // if (!this.props.login.isAuthenticated) {
     //   this.props.history.push('/')
     // } else {
-      this.props.dispatch(getVariables((variables) => {
-        this.props.dispatch(initialiseVariables(variables))
-      }))
+    this.props.dispatch(getVariables((variables) => {
+      this.props.dispatch(initialiseVariables(variables))
+    }))
     // }
   }
 

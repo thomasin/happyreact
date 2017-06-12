@@ -3,7 +3,7 @@ import moment from 'moment'
 
 export default function createGraphs (res) {
   let {data, variableList} = res
-  
+
     // Initialise
   let initialVars = ['energy', 'outlook']
   let variables = [...variableList, ...initialVars]

@@ -19,7 +19,7 @@ class Home extends React.Component {
   componentWillMount () {
     if (!this.props.login.isAuthenticated) {
       return this.props.history.push('/')
-    }    
+    }
   }
 
   componentDidMount () {
@@ -30,7 +30,6 @@ class Home extends React.Component {
       if (res.body) streamGraph(res.body)
     })
   }
-
 
   displayEntries (entries) {
     return entries.map((entry) => {
@@ -48,7 +47,7 @@ class Home extends React.Component {
 
   render () {
     return (
-      <div className="contentContainer">
+      <div className='contentContainer'>
         <div id='svgContainer'>
           <svg preserveAspectRatio='xMinYMin meet' viewBox='0 0 960 500' />
         </div>

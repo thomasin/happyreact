@@ -6,12 +6,12 @@ function isValidEmail_signUp (email, callback) {
   if (email === '') {
     callback({
       valid: false,
-      message: "Please enter an email address"
+      message: 'Please enter an email address'
     })
   } else if (!validator.isEmail(email)) {
     callback({
       valid: false,
-      message: "Not a valid email address"
+      message: 'Not a valid email address'
     })
   } else {
     callback({
@@ -34,7 +34,7 @@ function isValidPassword_signUp (password) {
     return {
       valid: false,
       strength: passwordObject.score,
-      message: passwordObject.feedback.warning || "Please make your password a little bit more complex"
+      message: passwordObject.feedback.warning || 'Please make your password a little bit more complex'
     }
   }
   return {

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import barGraph from '../scripts/d3/viewData'
 import {makeDataRequest} from '../scripts/api'
 
-
 class ViewData extends React.Component {
   componentWillMount () {
     if (!this.props.login.isAuthenticated) {
