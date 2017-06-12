@@ -1,6 +1,6 @@
-import request from 'superagent'
+const request = require('superagent')
 
-export function sendLoginRequest (email, password, callback) {
+function sendLoginRequest (email, password, callback) {
   request
     .post('/login')
     .send({
@@ -10,19 +10,19 @@ export function sendLoginRequest (email, password, callback) {
     .end(callback)
 }
 
-export function checkLoginSession (callback) {
+function checkLoginSession (callback) {
   request
     .get('/activeSession')
     .end(callback)
 }
 
-export function sendLogoutRequest (callback) {
+function sendLogoutRequest (callback) {
   request
     .get('/logout')
     .end(callback)
 }
 
-export function createAccountRequest (email, password, callback) {
+function createAccountRequest (email, password, callback) {
   request
     .post('/signup')
     .send({
@@ -32,11 +32,19 @@ export function createAccountRequest (email, password, callback) {
     .end(callback)
 }
 
-export function duplicateEmailCheck (email, callback) {
-  request
+function duplicateEmailCheck (email, callback) {
+  return request
     .post('/checkEmail')
     .send({
       email
     })
     .end(callback)
+}
+
+module.exports = {
+  sendLoginRequest,
+  checkLoginSession,
+  sendLogoutRequest,
+  createAccountRequest,
+  duplicateEmailCheck
 }

@@ -90,3 +90,15 @@ Managed to get Passport auth, login/register forms set up and WORKING today!! It
 ## 10/06
 
 Today I'm finishing my login/create user page. I was unsure about the best password strength system and I did some research and read a super interesting article (https://blog.codinghorror.com/password-rules-are-bullshit/) on password strength requirements. That led me to zxcvbn (https://github.com/dropbox/zxcvbn) which calculates password strength based on entropy and offers a lot of data such as suggestions for better password, length of time it would take to crack, score on a scale of 1-5. I'm really happy with this find! The biggest challenge for me is going to be designing this login page.I might look at a few sites for inspiration. I'm going to start with spotify.
+
+## 12/06
+
+Finished my login/sign up pages on the weekend. Got a beautiful little password strength bar going, and all my client side validation. The design definitely isn't what's going to be in the final product but till I find a designer or find those skills myself it will be lacking. I tried to redesign the dashboard to use a sidebar, it kind of working but also definitely needs work. Just happy I've got all the user stuff working (ish). Some things I need help with before I move on are:
+
+* Best ways of doing email verification and forgot password links.
+* Debug all those annoying 'Cannot update state while transitioning errors'
+* Why does my password input sometimes change to text???
+* Would love a second opinion on security - really don't want that to be lacking
+* Best way of doing server side validation ✓
+* 'Cannot read property id of undefined' when logging out
+* Superagent internal server error when logging out

@@ -22,7 +22,7 @@ class AddEntry extends React.Component {
 
   componentWillMount () {
     if (!this.props.login.isAuthenticated) {
-      this.props.history.push('/login')
+      this.props.history.push('/')
     } else {
       this.props.dispatch(getVariables((variables) => {
         this.props.dispatch(initialiseVariables(variables))
@@ -59,7 +59,7 @@ class AddEntry extends React.Component {
 
   render () {
     return (
-      <div className='contentContainer'>
+      <div className='contentContainer addEntryContainer'>
         <form>
 
           <InputRangeBar

@@ -12,16 +12,13 @@ const Nav = props => {
           </div>
           <div className='navRow title'>
             <Link to='/dashboard/'>
-              Entry List
+              Previous Entries
             </Link>
           </div>
           <div className='navRow title'>
             <Link to='/dashboard/view-data'>
               Look at data
             </Link>
-          </div>
-          <div className='title navRow'>
-            <a href="#">Filter</a>
           </div>
 
           <div className="title navRow logoutButton">

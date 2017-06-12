@@ -1,27 +1,21 @@
-var express = require('express')
-var router = express.Router()
-var passport = require('passport')
-var db = require('../db')
-var User = require('../userDb')
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
+const db = require('../db')
+const User = require('../userDb')
+const validation = require('../../utils/validation')
 
 // Routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
   res.sendStatus(200)
 })
 
-router.get('/activeSession', (req, res) => {
-  console.log(req)
-  let activeSession = req.user ? true : false
-  console.log(req.user)
-  console.log(activeSession)
-  res.json({ activeSession })
-})
-
-router.post('/checkEmail', (req, res) => {
+router.post('/checkEmail', (req, checkEmailRes) => {
   User.checkEmail(req.app.get('connection'), req.body.email)
     .then((email) => {
       let doesExist = email.length ? true : false
-      res.json({ doesExist })
+      console.log(doesExist)
+      checkEmailRes.json({ doesExist })
     })
     .catch((err) => {
       console.log(err)
@@ -29,17 +23,23 @@ router.post('/checkEmail', (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-  User.createUser(req.app.get('connection'), req.body.email, req.body.password)
-    .then((id) => {
-      req.login({email: req.body.email, password: req.body.password, id: id[0]}, (error) => {
-        if (error) console.log(error)
-        res.sendStatus(201)
-      })
-    })
-    .catch((err) => {
-      if (err.errno === 19) {res.sendStatus(409)}
-      else res.sendStatus(500)
-    })
+  validation.isValidEmail_signUp(req.body.email, (checkedEmail) => {
+    if (checkedEmail.valid) {
+      User.createUser(req.app.get('connection'), req.body.email, req.body.password)
+        .then((id) => {
+          req.login({email: req.body.email, password: req.body.password, id: id[0]}, (error) => {
+            if (error) console.log(error)
+            res.sendStatus(201)
+          })
+        })
+        .catch((err) => {
+          if (err.errno === 19) {res.sendStatus(409)}
+          else res.sendStatus(500)
+        })
+    } else {
+      res.sendStatus(400)
+    }
+  })
 })
 
 router.get('/logout', (req, res) => {

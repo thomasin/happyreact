@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import {connect} from 'react-redux'
 import trim from 'trim'
-import validator from 'validator'
+
+import validation from '../../utils/validation'
 import { attemptLogin, clearError, createAccount } from '../actions/loginAuth'
-import { duplicateEmailCheck } from '../scripts/loginApi.js'
+import { duplicateEmailCheck } from '../scripts/loginApi'
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -14,14 +16,9 @@ class SignUp extends React.Component {
       errorMessageEmail: '',
       passwordStrength: undefined,
       passwordError: '',
-      popup: false
+      popup: false,
+      canSubmit: true
     }
-    document.getElementById("app").addEventListener("click", (e) => {
-      let popup = document.getElementById("popup")
-      if (e.target !== popup && !popup.contains(e.target)) {
-        this.showPopup(false)
-      }
-    })
   }
 
   componentWillReceiveProps(newProps) {
@@ -32,8 +29,17 @@ class SignUp extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentWillMount() { // Only display page if user not logged in
     if (this.props.login.isAuthenticated) this.props.history.push('/dashboard/')
+  }
+
+  componentDidMount() { // Add event listener to pop up
+    document.getElementById("app").addEventListener("click", (e) => {
+      let popup = document.getElementById("popup")
+      if (e.target !== popup && !popup.contains(e.target)) {
+        this.showPopup(false)
+      }
+    })
   }
 
   handleClick(e) {
@@ -63,27 +69,28 @@ class SignUp extends React.Component {
   }
 
   validateEmail(e) {
-        if (this.state.email === '') {
-          this.setState({
-            errorMessageEmail: 'Please enter an email address'
-          })
-        } else if (!validator.isEmail(this.state.email)) {
-          this.setState({
-            errorMessageEmail: 'Not a valid email address'
-          })
-        } else {
-          duplicateEmailCheck(this.state.email, (err, res) => {
-            if (res.body.doesExist) {
-              this.setState({
-                errorMessageEmail: 'An account with this address already exists, try logging in'
-              })
-            } else {
-              this.setState({
-                errorMessageEmail: ''
-              })
-            }
-          })
-        }
+    validation.isValidEmail_signUp(this.state.email, (checkedEmail) => {
+      if (checkedEmail.valid) {
+        duplicateEmailCheck(this.state.email, (err, res) => {
+          if (res.body.doesExist) {
+            this.setState({
+              errorMessageEmail: 'An account with this address already exists, try logging in',
+              canSubmit: false
+            })
+          } else {
+            this.setState({
+              errorMessageEmail: '',
+              canSubmit: true
+            })
+          }
+        })
+      } else {
+        this.setState({
+          errorMessageEmail: checkedEmail.message,
+          canSubmit: false
+        })
+      }
+    })
   }
 
   checkPasswordStrength (e) {
@@ -98,7 +105,7 @@ class SignUp extends React.Component {
     })
   }
 
-  getColour(strength) {
+  getColour(strength) { // Calculate the colour for the strength bar
     if (strength <= 2) {
       return d3.interpolateInferno((strength/15)+0.6)
     }
@@ -106,7 +113,7 @@ class SignUp extends React.Component {
     return d3.interpolateViridis((strength)/4)
   }
 
-  passwordStrengthArray(strength) {
+  passwordStrengthBar(strength) {
     return <div className={`passwordStrengthBar strength${strength}`} style={{backgroundColor: this.getColour(strength)}}></div>
   }
 
@@ -154,14 +161,15 @@ class SignUp extends React.Component {
 
 
       <div className="passwordStrengthContainer">
-              {this.passwordStrengthArray(this.state.passwordStrength)}
+          {this.passwordStrengthBar(this.state.passwordStrength)}
       </div>
 
-            <div className="signUpError pw">{ this.state.passwordError } </div>
+      <div className="signUpError pw">{ this.state.passwordError }</div>
 
-        <button type="submit" className="button-primary"
+        <button type="submit" className={`button-primary ${this.state.canSubmit ? '' : 'disabled'}`}
         onClick={(e) => this.handleClick(e)}>
          Sign Up</button><br />
+       <Link to="/" className="title">Already have an account? Log in</Link>
       </div>
     )
   }

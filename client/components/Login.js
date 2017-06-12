@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 import validator from 'validator'
 import { attemptLogin, clearError, createAccount } from '../actions/loginAuth'
 import { duplicateEmailCheck } from '../scripts/loginApi.js'
@@ -49,6 +50,7 @@ class Login extends React.Component {
         <button type="submit" className="button-primary loginButton"
           onClick={(e) => this.handleClick(e)}>
            Login</button><br />
+         <Link to="/signup" className="title">Don't have an account? Sign up</Link>
         </div>
     )
   }

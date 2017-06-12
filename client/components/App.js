@@ -3,8 +3,6 @@ import {HashRouter as Router, Route} from 'react-router-dom'
 
 import LoginContainer from '../containers/LoginContainer'
 import SignUpContainer from '../containers/SignUpContainer'
-import Switch from './Switch'
-import Dashboard from './Dashboard'
 import HomeContainer from '../containers/HomeContainer'
 import Nav from './subcomponents/Nav'
 import ViewData from './ViewData'
