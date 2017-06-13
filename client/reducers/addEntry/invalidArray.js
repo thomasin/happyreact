@@ -1,4 +1,4 @@
-function invalid (state = [], action) {
+function invalid (state = [], action = {}) {
   switch (action.type) {
     case 'VALIDATE_VARIABLE':
       return action.bool

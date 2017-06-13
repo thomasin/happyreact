@@ -1,4 +1,4 @@
-function variableValues (state = [], action) {
+function variableValues (state = [], action = {}) {
   switch (action.type) {
     case 'INITIALISE_VARIABLES':
       let cleanArray = action.variables.filter((v) => {

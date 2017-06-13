@@ -1,4 +1,4 @@
-function variables (state = [], action) {
+function variables (state = [], action = {}) {
   switch (action.type) {
     case 'GET_VARIABLES':
       return [...action.variables]

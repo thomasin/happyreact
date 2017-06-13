@@ -23,7 +23,7 @@ export const newVariableValue = (variableName, variableValue, bool) => {
   }
 }
 
-export const reset = (variableName, bool) => {
+export const reset = (variableName) => {
   return {
     type: 'RESET_VALUES'
   }
