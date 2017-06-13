@@ -56,7 +56,7 @@ export function attemptLogin (email, password, callback) {
         if (!res.body.verified) dispatch(loginFail('Please verify your account'))
         else {
           dispatch(loginSuccess())
-          callback()
+          callback(err, res)
         }
       }
     })
@@ -89,6 +89,7 @@ export function attemptLogout (callback) {
 export function checkSession () {
   return (dispatch) => {
     checkLoginSession((err, res) => {
+      console.log({err, res})
       if (!err) {
         dispatch(loginSuccess())
       }

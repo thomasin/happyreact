@@ -5,8 +5,9 @@ Features:
 * View entry page and little graph for that
 * Filter/sort/search page
 * Server side validation and sanitisation
-* Error pages and error handling
+* Error pages and error handling - logout
 * Handle success on entry added
+
 
 Bugs:
 

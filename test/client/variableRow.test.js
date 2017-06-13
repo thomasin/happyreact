@@ -11,9 +11,9 @@ import store from '../../client/store'
 
 test('Variable row loads all variables + new variable', (t) => {
   const wrapper = mount(
-    <Provider store={store}>
       <MemoryRouter>
         <VariableRow
+          store={store}
           invalid={[]}
           variableValues={
             [
@@ -21,16 +21,16 @@ test('Variable row loads all variables + new variable', (t) => {
             ]
           }/>
       </MemoryRouter>
-    </Provider>)
+    )
 
   t.is(wrapper.find('.variable').length, 2)
 })
 
 test('An disabled variable value causes variable to have invalid class', (t) => {
   const wrapper = mount(
-    <Provider store={store}>
       <MemoryRouter>
         <VariableRow
+          store={store}
           invalid={[]}
           variableValues={
             [
@@ -40,7 +40,6 @@ test('An disabled variable value causes variable to have invalid class', (t) => 
             ]
           }/>
       </MemoryRouter>
-    </Provider>
   )
 
   t.is(wrapper.find('.invalid').exists(), true)

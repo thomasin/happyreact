@@ -21,8 +21,8 @@ class Login extends React.Component {
 
   handleClick (e) {
     e.preventDefault()
-    this.props.dispatch(attemptLogin(this.state.email, this.state.password, () => {
-      this.props.history.push('/dashboard/')
+    this.props.dispatch(attemptLogin(this.state.email, this.state.password, (err, res) => {
+      if (!err) this.props.history.push('/dashboard/')
     }))
   }
 

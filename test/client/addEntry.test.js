@@ -12,26 +12,24 @@ AddEntry.prototype.componentWillMount = () => {}
 
 test('Add entry page has both input ranges', (t) => {
   const wrapper = mount(
-    <Provider store={store}>
       <MemoryRouter>
         <AddEntry
+          store={store}
           invalid={[]}
           />
       </MemoryRouter>
-    </Provider>
   )
   t.is(wrapper.find('[type="range"]').length, 2)
 })
 
 test('An invalid variable value causes create button to disable', (t) => {
   const wrapper = mount(
-    <Provider store={store}>
       <MemoryRouter>
         <AddEntry
+          store={store}
           invalid={['Cats']}
           />
       </MemoryRouter>
-    </Provider>
   )
 
   t.is(wrapper.find('.disabled').exists(), true)
