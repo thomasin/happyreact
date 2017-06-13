@@ -1,5 +1,6 @@
 import test from 'ava'
 import request from 'supertest'
+const httpMocks = require('node-mocks-http')
 
 import app from '../../server/server'
 
@@ -11,7 +12,7 @@ configureDatabase(test, app)
 /*
 test.serial.cb('POST /add-variable adds a variable', t => {
   request(t.context.app)
-    .post('/add-variable')
+    .post('/dashboard/add-variable')
     .send({
       variableName: 'Im a variable'
     })
@@ -25,9 +26,21 @@ test.serial.cb('POST /add-variable adds a variable', t => {
     })
 })
 
+test.serial.cb('POST /add-variable returns 400 if variable not valid', t => {
+  request(t.context.app)
+    .post('/dashboard/add-variable')
+    .send({
+      variableName: 'notvalidbecauseiamabittoolong'
+    })
+    .expect(400)
+    .end((err, res) => {
+      t.is(res.statusCode, 400)
+  })
+})
+
 test.cb('GET /getData returns data', t => {
   request(t.context.app)
-    .get('/getData')
+    .get('/dashboard/getData')
     .expect(200)
     .end((err, res) => {
       if (err) throw err
@@ -45,7 +58,7 @@ test.cb('GET /getData returns data', t => {
 
 test.cb('GET /getAll of entries returns entries', t => {
   request(t.context.app)
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({ tableName: 'entry' })
     .expect(200)
     .end((err, res) => {
@@ -56,9 +69,34 @@ test.cb('GET /getAll of entries returns entries', t => {
     })
 })
 
+*/
+
+// test.cb('GET /getAll of entries returns entries', t => {
+//     httpMocks.createRequest({
+//       method: 'GET',
+//       url: '/'
+//       user: {
+//         name: 'test'
+//       }
+//     })
+//
+//     httpMocks.createResponse()
+//   request(t.context.app)
+//     .get('/dashboard/getAll')
+//     .query({ tableName: 'entry' })
+//     .expect(200)
+//     .end((err, res) => {
+//       if (err) throw err
+//       t.is(res.body[8].title, 'Hack me')
+//       t.ifError(err)
+//       t.end()
+//     })
+// })
+
+/*
 test.cb('GET /getAll of bad query returns error', t => {
   request(t.context.app)
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({ tableName: 'test' })
     .expect(401)
     .end((err, res) => {
@@ -70,7 +108,7 @@ test.cb('GET /getAll of bad query returns error', t => {
 
 test.cb('GET /getAll of variables returns variables', t => {
   request(t.context.app)
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({ tableName: 'variable' })
     .expect(200)
     .end((err, res) => {
@@ -82,7 +120,7 @@ test.cb('GET /getAll of variables returns variables', t => {
 
 test.cb('POST /add-entry adds a entry', t => {
   request(t.context.app)
-    .post('/add-entry')
+    .post('/dashboard/add-entry')
     .send({
       title: 'Im a entry',
       text: 'Test',
@@ -104,6 +142,24 @@ test.cb('POST /add-entry adds a entry', t => {
       t.is(variable[variable.length - 1].value, 10)
       t.end()
     })
+})
+
+test.cb('POST /add-entry returns 400 if one or more variables are invalid', t => {
+  request(t.context.app)
+    .post('/dashboard/add-entry')
+    .send({
+      title: 'Im a entry',
+      text: 'Test',
+      mood_id: 55,
+      variables: [{
+        id: 2,
+        value: 'invalid'
+      }]
+    })
+    .expect(400)
+    .end((err, res) => {
+      t.is(res.statusCode, 400)
+  })
 })
 */
 
@@ -189,7 +245,7 @@ test.cb('POST /signup returns error if password is not valid', t => {
 
 test.serial.cb('POST /add-variable redirects when user is unauthorised', t => {
   request(t.context.app)
-    .post('/add-variable')
+    .post('/dashboard/add-variable')
     .send({
       variableName: 'Im a variable'
     })
@@ -203,7 +259,7 @@ test.serial.cb('POST /add-variable redirects when user is unauthorised', t => {
 
 test.cb('GET /getData redirects when user is unauthorised', t => {
   request(t.context.app)
-    .get('/getData')
+    .get('/dashboard/getData')
     .expect(302)
     .end((err, res) => {
       t.is(res.statusCode, 302)
@@ -213,7 +269,7 @@ test.cb('GET /getData redirects when user is unauthorised', t => {
 
 test.cb('GET /getAll of entries redirects when user is unauthorised', t => {
   request(t.context.app)
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({ tableName: 'entry' })
     .expect(302)
     .end((err, res) => {
@@ -225,8 +281,19 @@ test.cb('GET /getAll of entries redirects when user is unauthorised', t => {
 
 test.cb('GET /getAll of variables redirects when user is unauthorised', t => {
   request(t.context.app)
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({ tableName: 'variable' })
+    .expect(302)
+    .end((err, res) => {
+      t.is(res.header['location'], '/')
+      t.is(res.statusCode, 302)
+      t.end()
+    })
+})
+
+test.cb('GET /logout redirects when user is unauthorised', t => {
+  request(t.context.app)
+    .get('/dashboard/logout')
     .expect(302)
     .end((err, res) => {
       t.is(res.header['location'], '/')
@@ -237,7 +304,7 @@ test.cb('GET /getAll of variables redirects when user is unauthorised', t => {
 
 test.cb('POST /add-entry redirects when user is unauthorised', t => {
   request(t.context.app)
-    .post('/add-entry')
+    .post('/dashboard/add-entry')
     .send({
       title: 'Im a entry',
       text: 'Test',

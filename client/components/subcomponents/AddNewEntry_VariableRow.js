@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { initialiseVariables, newVariableValue, setValid, invalidArray } from '../../actions/formValues'
 import { getVariables } from '../../actions/variables'
 import {addVariable} from '../../scripts/api'
-import {validateVariableValues, variableValuesToolTipMessages} from '../../scripts/utils/validation'
+const v = require('../../../utils/validation')
 import trim from 'trim'
 
 class VariableRow extends React.Component {
@@ -21,7 +21,7 @@ class VariableRow extends React.Component {
 
   submitVariable (e) {
     e.preventDefault()
-    if (!validateVariableValues(this.state.newVariable).valid && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
+    if (!v.validateVariableValue(this.state.newVariable).valid && trim(this.state.newVariable.value) !== '') { // Make sure submitted variable name is valid
       addVariable(this.state.newVariable.value, () => { // Add to database
         this.updateVariableList() // Display new variable in list
       })
@@ -61,7 +61,7 @@ class VariableRow extends React.Component {
   }
 
   validate (input) {
-    let validResult = validateVariableValues(input, this.props.invalid) // Check if entered value is valid
+    let validResult = v.validateVariableValue(input, this.props.invalid) // Check if entered value is valid
     this.updateVariable(input, !validResult.valid) // Update variable
     this.props.dispatch(invalidArray(input.id, !validResult.valid)) // Update invalid array
     if (validResult.msg) this.setState({validated: validResult.msg }) // Display correct invalid message
@@ -78,7 +78,7 @@ class VariableRow extends React.Component {
       <div className='variableRow section'>
 
         <div className={`twelve columns tooltip ${this.props.invalid.length ? '' : 'hidden'}`} >
-          {variableValuesToolTipMessages[this.state.validated]}
+          {v.variableValuesToolTipMessages[this.state.validated]}
         </div>
 
         {this.displayVariables(this.props.variableValues)}

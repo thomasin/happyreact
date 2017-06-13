@@ -36,6 +36,7 @@
     "jsdom": "^11.0.0",
     "jsx-loader": "^0.13.2",
     "nock": "^9.0.13",
+    "node-mocks-http": "^1.6.2",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",

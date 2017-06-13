@@ -5,7 +5,6 @@ import { reset } from '../actions/formValues'
 import {getAllOfTable, submitEntry} from '../scripts/api'
 import VariableRowContainer from '../containers/VariableRowContainer'
 import InputRangeBar from './subcomponents/AddNewEntry_InputRangeBar'
-import {validateVariableValues} from '../scripts/utils/validation'
 import { getVariables } from '../actions/variables'
 import { initialiseVariables } from '../actions/formValues'
 

@@ -1,63 +1,47 @@
 import test from 'ava'
 import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import {mount} from 'enzyme'
 import {Provider} from 'react-redux'
+import VariableRow from '../../client/components/subcomponents/AddNewEntry_VariableRow'
 
 import './setup-dom'
-import AddEntry from '../../client/components/AddEntry'
 import store from '../../client/store'
 
-AddEntry.prototype.componentDidMount = () => {}
 
 test('Variable row loads all variables + new variable', (t) => {
-  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
-  wrapper.setState({
-    variables: [
-      {id: 1, name: 'Cats', value: ''},
-      {id: 2, name: 'Dogs', value: ''},
-      {id: 3, name: 'Dolphins', value: ''}
-    ],
-    newVariable: ''
-  })
-  t.is(wrapper.find('.variable').length, 4)
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter>
+        <VariableRow
+          invalid={[]}
+          variableValues={
+            [
+              {id: 1, value: 'Test', disabled: false}
+            ]
+          }/>
+      </MemoryRouter>
+    </Provider>)
+
+  t.is(wrapper.find('.variable').length, 2)
 })
 
-test('Variable row loads names of variables', (t) => {
-  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
-  wrapper.setState({
-    variables: [
-      {id: 1, name: 'Cats', value: ''},
-      {id: 2, name: 'Dogs', value: ''},
-      {id: 3, name: 'Dolphins', value: ''}
-    ],
-    newVariable: ''
-  })
-  t.is(wrapper.find('[htmlFor="Cats"]').first().text(), 'Cats')
-})
+test('An disabled variable value causes variable to have invalid class', (t) => {
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter>
+        <VariableRow
+          invalid={[]}
+          variableValues={
+            [
+              {id: 1, name: 'Cats', value: 'd', disabled: true},
+              {id: 2, name: 'Dogs', value: ''},
+              {id: 3, name: 'Dolphins', value: ''}
+            ]
+          }/>
+      </MemoryRouter>
+    </Provider>
+  )
 
-test('An invalid variable value causes a response', (t) => {
-  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
-  wrapper.setState({
-    variables: [
-      {id: 1, name: 'Cats', value: 'd', disabled: true},
-      {id: 2, name: 'Dogs', value: ''},
-      {id: 3, name: 'Dolphins', value: ''}
-    ],
-    newVariable: ''
-  })
   t.is(wrapper.find('.invalid').exists(), true)
-})
-
-test('An invalid variable value causes create button to disable', (t) => {
-  const wrapper = mount(<Provider store={store}><AddEntry /></Provider>)
-  wrapper.setState({
-    variables: [
-      {id: 1, name: 'Cats', value: 'd', disabled: true},
-      {id: 2, name: 'Dogs', value: ''},
-      {id: 3, name: 'Dolphins', value: ''}
-    ],
-    newVariable: '',
-    invalid: ['Cats']
-  })
-  t.is(wrapper.find('.disabled').exists(), true)
 })

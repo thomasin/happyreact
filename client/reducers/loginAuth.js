@@ -1,9 +1,9 @@
-function login (state = {isAuthenticated: false, isFetching: false}, action) {
+function login (state = {isAuthenticated: false, isFetching: false}, action = {}) {
   switch (action.type) {
     case 'LOGIN_REQUEST':
       return {...state, isFetching: true}
     case 'LOGOUT_SUCCESS':
-      return {isAuthenticated: false, isFetching: false, userToken: null}
+      return {isAuthenticated: false, isFetching: false}
     case 'LOGIN_SUCCESS':
       return {isFetching: false, isAuthenticated: true}
     case 'LOGIN_FAIL':

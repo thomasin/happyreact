@@ -6,7 +6,7 @@ import * as api from '../../client/scripts/api'
 test.cb('get Data connecting to server', t => {
   var expected = { test: 'test passed' }
   var scope = nock('http://localhost:80/')
-    .get('/getData')
+    .get('/dashboard/getData')
     .reply(200, expected)
 
   api.makeDataRequest((err, actual) => {
@@ -20,7 +20,7 @@ test.cb('get Data connecting to server', t => {
 test.cb('get All Of Table connecting to server', t => {
   var expected = { test: 'test passed' }
   var scope = nock('http://localhost:80/')
-    .get('/getAll')
+    .get('/dashboard/getAll')
     .query({tableName: 'entry'})
     .reply(200, expected)
 

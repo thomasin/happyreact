@@ -2,7 +2,7 @@ import request from 'superagent'
 
 export function makeDataRequest (callback) {
   request
-    .get('/getData')
+    .get('/dashboard/getData')
     .end(callback)
 }
 
@@ -11,7 +11,7 @@ export function getAllOfTable (tableName) {
   return new Promise((resolve, reject) => {
     if (allowedTables.includes(tableName)) {
       request
-        .get(`/getAll?tableName=${tableName}`)
+        .get(`/dashboard/getAll?tableName=${tableName}`)
         .end((err, res) => {
           if (!err && res.body) {
             resolve(res.body)
@@ -25,7 +25,7 @@ export function getAllOfTable (tableName) {
 
 export function addVariable (variableName, callback) {
   request
-    .post('/add-variable')
+    .post('/dashboard/add-variable')
     .send({variableName})
     .end((err, res) => {
       if (err) { callback(err) } else { callback() }
@@ -35,7 +35,7 @@ export function addVariable (variableName, callback) {
 export function submitEntry (entryData, variableData, callback) {
   let body = parseEntryText(entryData.entry)
   request
-    .post('/add-entry')
+    .post('/dashboard/add-entry')
     .send({
       'title': body.title || '',
       'text': body.text || '',

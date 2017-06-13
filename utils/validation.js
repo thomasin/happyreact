@@ -44,7 +44,34 @@ function isValidPassword_signUp (password) {
   }
 }
 
+function validateVariableValue (input, invalidList) {
+  var allowedWords = ['', 'yes', 'no', 'true', 'false', 'y', 'n']
+  if (input.id === 'newVariable') {
+    if (input.value.length > 20) {
+      return { valid: false, msg: 'variableNameTooLong'}
+    } else {
+      return { valid: true }
+    }
+  } else {
+    if (!allowedWords.includes(input.value.toLowerCase()) && isNaN(input.value)) {
+      return { valid: false, msg: 'wrongType' }
+    } else if (input.value.length > 5) {
+      return { valid: false, msg: 'valueTooLong'}
+    }
+    return { valid: true }
+  }
+}
+
+const variableValuesToolTipMessages = {
+  wrongType: 'Variables can have number values or one of y, n, yes, no, true, false (case insensitive yay)',
+  valueTooLong: "Values can't be too big! We can't cope ):",
+  variableNameTooLong: 'Variable name a bit long',
+  default: ''
+}
+
 module.exports = {
   isValidEmail_signUp,
-  isValidPassword_signUp
+  isValidPassword_signUp,
+  validateVariableValue,
+  variableValuesToolTipMessages
 }

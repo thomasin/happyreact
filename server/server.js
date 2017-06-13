@@ -3,7 +3,10 @@ var bodyParser = require('body-parser')
 var passport = require('./passport')
 var session = require('express-session')
 var flash = require('connect-flash')
-var index = require('./routes/index')
+
+var unauthorised = require('./routes/unauthorised')
+var authorised = require('./routes/authorised')
+
 
 // Middleware
 module.exports = (connection) => {
@@ -15,6 +18,8 @@ module.exports = (connection) => {
 
   passport(app)
 
-  app.use('/', index)
+  app.use('/', unauthorised)
+  app.use('/dashboard', authorised)
+
   return app
 }

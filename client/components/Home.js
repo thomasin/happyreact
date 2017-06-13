@@ -10,7 +10,7 @@ import { getEntries } from '../actions/entries'
 import streamGraph from '../scripts/d3/home'
 import {makeDataRequest, getAllOfTable} from '../scripts/api'
 
-class Home extends React.Component {
+export class Home extends React.Component {
   constructor (props) {
     super(props)
     props.dispatch(getEntries())
@@ -27,6 +27,7 @@ class Home extends React.Component {
       return this.props.history.push('/')
     }
     makeDataRequest((err, res) => {
+      console.log({err, res})
       if (res.body) streamGraph(res.body)
     })
   }
@@ -61,5 +62,4 @@ class Home extends React.Component {
   }
 }
 
-Home = connect()(Home)
-export default Home
+export default connect()(Home)
