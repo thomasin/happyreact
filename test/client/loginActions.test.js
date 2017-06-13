@@ -110,7 +110,7 @@ test.cb('Create account success', t => {
 
 test.cb('Logout success', t => {
   const scope = nock('http://localhost:80')
-    .post('/logout')
+    .get('/logout')
     .reply(200)
 
   login.attemptLogout(() => {})((dispatch) => {
@@ -119,9 +119,9 @@ test.cb('Logout success', t => {
   })
 })
 
-test.cb.skip('Check active session', t => {
+test.cb('Check active session', t => {
   const scope = nock('http://localhost:80')
-    .post('/activeSession')
+    .get('/activeSession')
     .reply(200)
 
   login.checkSession()((dispatch) => {

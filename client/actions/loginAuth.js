@@ -89,7 +89,6 @@ export function attemptLogout (callback) {
 export function checkSession () {
   return (dispatch) => {
     checkLoginSession((err, res) => {
-      console.log({err, res})
       if (!err) {
         dispatch(loginSuccess())
       }
