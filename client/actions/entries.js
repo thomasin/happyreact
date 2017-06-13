@@ -9,13 +9,8 @@ export const refreshEntries = (entries) => {
 
 export function getEntries () {
   return (dispatch) => {
-    return getAllOfTable('entry')
-      .then((entries) => {
-        dispatch(refreshEntries(entries))
-        return entries
-      })
-      .catch((err) => {
-        throw err
-      })
+    return getAllOfTable('entry', (err, res) => {
+      if (!err) dispatch(refreshEntries(res.body.entries))
+    })
   }
 }

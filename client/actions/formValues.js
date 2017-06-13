@@ -1,4 +1,4 @@
-function copyVariables (variables) {
+export function copyVariables (variables) {
   return variables.map((variable) => {
     return Object.assign({}, variable, {
       value: '',

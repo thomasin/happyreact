@@ -9,13 +9,11 @@ export const refreshVariables = (variables) => {
 
 export function getVariables (callback) {
   return (dispatch) => {
-    return getAllOfTable('variable')
-      .then((variables) => {
-        dispatch(refreshVariables(variables))
-        callback(variables)
-      })
-      .catch((err) => {
-        throw err
-      })
+    return getAllOfTable('variable', (err, res) => {
+      if (!err) {
+        dispatch(refreshVariables(res.body.variables))
+        callback(res.body.variables)
+      }
+    })
   }
 }

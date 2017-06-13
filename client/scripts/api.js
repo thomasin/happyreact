@@ -6,21 +6,11 @@ export function makeDataRequest (callback) {
     .end(callback)
 }
 
-export function getAllOfTable (tableName) {
-  const allowedTables = ['variable', 'entry']
-  return new Promise((resolve, reject) => {
-    if (allowedTables.includes(tableName)) {
-      request
-        .get(`/dashboard/getAll?tableName=${tableName}`)
-        .end((err, res) => {
-          if (!err && res.body) {
-            resolve(res.body)
-          }
-        })
-    } else {
-      console.log("don't hack me")
-    }
-  })
+export function getAllOfTable (tableName, callback) {
+  request
+    .get(`/dashboard/getAll`)
+    .query({ tableName })
+    .end(callback)
 }
 
 export function addVariable (variableName, callback) {
